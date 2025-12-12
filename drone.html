@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project: Custom Quadcopter</title>
+    <style>
+        /* --- REUSING CORE STYLES FROM PORTFOLIO --- */
+        :root {
+            --primary: #2563eb;
+            --dark: #0f172a;
+            --light: #f8fafc;
+            --gray: #94a3b8;
+            --card-bg: #1e293b;
+            --font-main: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: var(--font-main);
+            background-color: var(--dark);
+            color: var(--light);
+            line-height: 1.6;
+        }
+
+        a { text-decoration: none; color: inherit; transition: 0.3s; }
+        ul { list-style: none; }
+
+        /* --- NAVIGATION --- */
+        nav {
+            background-color: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #334155;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo { font-weight: 700; color: var(--light); font-size: 1.1rem; }
+        .logo span { color: var(--primary); }
+        .back-link { color: var(--gray); font-size: 0.9rem; display: flex; align-items: center; gap: 0.5rem;}
+        .back-link:hover { color: var(--primary); transform: translateX(-5px); }
+
+        /* --- PROJECT HERO --- */
+        .project-header {
+            padding: 4rem 5% 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .project-header h1 { font-size: 3rem; margin-bottom: 1rem; }
+        .project-header .subtitle { color: var(--primary); font-size: 1.2rem; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; }
+
+        .hero-image-container {
+            width: 100%;
+            max-width: 1000px;
+            height: 500px;
+            margin: 2rem auto;
+            border-radius: 15px;
+            overflow: hidden;
+            border: 1px solid #334155;
+        }
+
+        .hero-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            /* Using the image from your folder */
+            background-image: url('images/Drone.jpg'); 
+            background-size: cover;
+            background-position: center;
+            background-color: #334155;
+        }
+
+        /* --- CONTENT GRID --- */
+        .content-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem 5%;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 4rem;
+        }
+
+        h2 { font-size: 1.8rem; margin-bottom: 1rem; color: var(--light); border-left: 4px solid var(--primary); padding-left: 1rem; }
+        p { color: var(--gray); margin-bottom: 1.5rem; }
+
+        /* --- SIDEBAR SPECS --- */
+        .specs-card {
+            background-color: var(--card-bg);
+            padding: 2rem;
+            border-radius: 10px;
+            border: 1px solid #334155;
+            height: fit-content;
+        }
+
+        .specs-card h3 { margin-bottom: 1.5rem; font-size: 1.2rem; border-bottom: 1px solid #334155; padding-bottom: 0.5rem; }
+        
+        .spec-item { margin-bottom: 1rem; }
+        .spec-label { display: block; font-size: 0.8rem; color: var(--gray); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.2rem; }
+        .spec-value { font-weight: 600; color: var(--light); font-size: 1.1rem; }
+
+        /* --- GALLERY --- */
+        .gallery-section {
+            max-width: 1000px;
+            margin: 4rem auto;
+            padding: 0 5%;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .gallery-item {
+            height: 200px;
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gray);
+            border: 1px solid #334155;
+            transition: 0.3s;
+        }
+        .gallery-item:hover { border-color: var(--primary); }
+
+        /* --- FOOTER --- */
+        footer {
+            text-align: center;
+            padding: 3rem;
+            border-top: 1px solid #334155;
+            color: var(--gray);
+            margin-top: 4rem;
+        }
+
+        @media (max-width: 768px) {
+            .content-container { grid-template-columns: 1fr; }
+            .project-header h1 { font-size: 2rem; }
+            .hero-image-container { height: 300px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAV -->
+    <nav>
+        <a href="index.html" class="back-link">&larr; Back to Portfolio</a>
+        <div class="logo">From Scratch <span>to Sky</span></div>
+    </nav>
+
+    <!-- HEADER -->
+    <header class="project-header">
+        <span class="subtitle">Embedded Systems / Robotics</span>
+        <h1>Custom Autonomous Quadcopter</h1>
+        <p>A high-performance drone built from the ground up, featuring custom PID tuning and waypoint navigation.</p>
+    </header>
+
+    <!-- HERO IMAGE -->
+    <div class="hero-image-container">
+        <!-- If the image fails to load, the CSS background-color will show -->
+        <img src="images/Drone.jpg" alt="Drone Hero Shot" class="hero-image">
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="content-container">
+        
+        <!-- LEFT COLUMN: Description -->
+        <div class="main-text">
+            <h2>Project Overview</h2>
+            <p>This project began as an exploration into flight dynamics and control theory. Unlike off-the-shelf commercial drones, building a quadcopter from individual components requires a deep understanding of power distribution, signal processing, and mechanical balance.</p>
+            <p>The objective was to create a stable, autonomous flight platform capable of executing GPS-guided missions while maintaining a high thrust-to-weight ratio for agility.</p>
+
+            <h2>Technical Implementation</h2>
+            <p><strong>Power Distribution:</strong> I designed a custom wiring harness to connect the 4S LiPo battery to the Electronic Speed Controllers (ESCs). This required careful consideration of current draw (peaking at 80A) to prevent voltage sag during rapid maneuvers.</p>
+            
+            <p><strong>Flight Control Logic:</strong> The core of the system is an STM32-based flight controller running ArduPilot. I spent significant time tuning the PID (Proportional-Integral-Derivative) loops. Initially, the drone suffered from oscillations in the roll axis, which I resolved by filtering sensor noise from the IMU and adjusting the 'D' gain.</p>
+
+            <p><strong>Fabrication:</strong> The frame was assembled using carbon fiber arms for rigidity and 3D-printed TPU mounts for the camera and antenna to dampen vibrations.</p>
+        </div>
+
+        <!-- RIGHT COLUMN: Specs Sidebar -->
+        <aside class="sidebar">
+            <div class="specs-card">
+                <h3>Technical Specs</h3>
+                
+                <div class="spec-item">
+                    <span class="spec-label">Microcontroller</span>
+                    <span class="spec-value">STM32 F405</span>
+                </div>
+                
+                <div class="spec-item">
+                    <span class="spec-label">Motors</span>
+                    <span class="spec-value">2300KV Brushless</span>
+                </div>
+
+                <div class="spec-item">
+                    <span class="spec-label">Battery System</span>
+                    <span class="spec-value">4S LiPo (14.8V)</span>
+                </div>
+
+                <div class="spec-item">
+                    <span class="spec-label">Communication</span>
+                    <span class="spec-value">2.4GHz RC / 915MHz Telemetry</span>
+                </div>
+
+                <div class="spec-item">
+                    <span class="spec-label">Software</span>
+                    <span class="spec-value">Betaflight / QGroundControl</span>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <!-- GALLERY SECTION -->
+    <section class="gallery-section">
+        <h2>Process Gallery</h2>
+        <div class="gallery-grid">
+            <div class="gallery-item">Wiring Diagram Placeholder</div>
+            <div class="gallery-item">Frame Assembly Photo</div>
+            <div class="gallery-item">PID Tuning Logs</div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>&copy; 2025 Yifan Hu. <br><a href="mailto:email@example.com" style="color:var(--primary)">Contact me about this project</a></p>
+    </footer>
+
+</body>
+</html>
