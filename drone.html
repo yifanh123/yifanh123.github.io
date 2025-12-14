@@ -109,7 +109,7 @@
         /* --- GALLERY --- */
         .gallery-section {
             max-width: 1000px;
-            margin: 4rem auto;
+            margin: 1rem auto 4rem; /* Reduced top margin from 4rem to 1rem */
             padding: 0 5%;
         }
 
@@ -176,15 +176,15 @@
         <!-- LEFT COLUMN: Description -->
         <div class="main-text">
             <h2>Project Overview</h2>
-            <p>This project began as an exploration into flight dynamics and control theory. Unlike off-the-shelf commercial drones, building a quadcopter from individual components requires a deep understanding of power distribution, signal processing, and mechanical balance.</p>
-            <p>The objective was to create a stable, autonomous flight platform capable of executing GPS-guided missions while maintaining a high thrust-to-weight ratio for agility.</p>
+            <p>A high-performance custom quadcopter featuring a carbon fiber frame and STM32-based flight controller. Optimized for stability and autonomous GPS navigation.</p>
 
-            <h2>Technical Implementation</h2>
-            <p><strong>Power Distribution:</strong> I designed a custom wiring harness to connect the 4S LiPo battery to the Electronic Speed Controllers (ESCs). This required careful consideration of current draw (peaking at 80A) to prevent voltage sag during rapid maneuvers.</p>
-            
-            <p><strong>Flight Control Logic:</strong> The core of the system is an STM32-based flight controller running ArduPilot. I spent significant time tuning the PID (Proportional-Integral-Derivative) loops. Initially, the drone suffered from oscillations in the roll axis, which I resolved by filtering sensor noise from the IMU and adjusting the 'D' gain.</p>
-
-            <p><strong>Fabrication:</strong> The frame was assembled using carbon fiber arms for rigidity and 3D-printed TPU mounts for the camera and antenna to dampen vibrations.</p>
+            <h2 style="margin-top: 2rem;">Flight Test Video</h2>
+            <video controls style="width: 100%; border-radius: 10px; border: 1px solid #334155;">
+                <!-- Trying both common types for MOV files -->
+                <source src="images/dv1.mov" type="video/quicktime">
+                <source src="images/dv1.mov" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
         </div>
 
         <!-- RIGHT COLUMN: Specs Sidebar -->
@@ -194,27 +194,27 @@
                 
                 <div class="spec-item">
                     <span class="spec-label">Microcontroller</span>
-                    <span class="spec-value">STM32 F405</span>
+                    <span class="spec-value">Pixhawk</span>
                 </div>
                 
                 <div class="spec-item">
                     <span class="spec-label">Motors</span>
-                    <span class="spec-value">2300KV Brushless</span>
+                    <span class="spec-value">2550KV Brushless</span>
                 </div>
 
                 <div class="spec-item">
                     <span class="spec-label">Battery System</span>
-                    <span class="spec-value">4S LiPo (14.8V)</span>
+                    <span class="spec-value">4S LiPo</span>
                 </div>
 
                 <div class="spec-item">
                     <span class="spec-label">Communication</span>
-                    <span class="spec-value">2.4GHz RC / 915MHz Telemetry</span>
+                    <span class="spec-value">2.4GHz RC</span>
                 </div>
 
                 <div class="spec-item">
                     <span class="spec-label">Software</span>
-                    <span class="spec-value">Betaflight / QGroundControl</span>
+                    <span class="spec-value">QGroundControl</span>
                 </div>
             </div>
         </aside>
@@ -222,17 +222,23 @@
 
     <!-- GALLERY SECTION -->
     <section class="gallery-section">
-        <h2>Process Gallery</h2>
+        <h2>Gallery</h2>
         <div class="gallery-grid">
-            <div class="gallery-item">Wiring Diagram Placeholder</div>
-            <div class="gallery-item">Frame Assembly Photo</div>
-            <div class="gallery-item">PID Tuning Logs</div>
+            <div class="gallery-item" style="overflow: hidden; border: none;">
+                <img src="images/d2.jpg" alt="Drone Detail Shot" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+            <div class="gallery-item" style="overflow: hidden; border: none;">
+                <img src="images/d3.png" alt="Drone Assembly Process" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+            <div class="gallery-item" style="overflow: hidden; border: none;">
+                <img src="images/d4.jpg" alt="Flight Controller Setup" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
         </div>
     </section>
 
     <!-- FOOTER -->
     <footer>
-        <p>&copy; 2025 Yifan Hu. <br><a href="mailto:email@example.com" style="color:var(--primary)">Contact me about this project</a></p>
+        <p>&copy; 2025 Yifan Hu</p>
     </footer>
 
 </body>
