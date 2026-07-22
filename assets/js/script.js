@@ -223,7 +223,50 @@
     revealEls.forEach((el) => revealObs.observe(el));
   }
 
+  // ── PROJECT TIMELINE: COLLAPSIBLE ENTRIES ───────────────────────────
+
+  const tlToggles = document.querySelectorAll('.tl-toggle');
+  const expandAllBtn = document.getElementById('tl-expand-all');
+
+  tlToggles.forEach((toggle) => {
+    toggle.addEventListener('click', () => {
+      const isOpen = toggle.getAttribute('aria-expanded') === 'true';
+      toggle.setAttribute('aria-expanded', String(!isOpen));
+      if (expandAllBtn) updateExpandAllLabel();
+    });
+  });
+
+  function updateExpandAllLabel() {
+    if (!expandAllBtn || !tlToggles.length) return;
+    const allOpen = Array.from(tlToggles).every((t) => t.getAttribute('aria-expanded') === 'true');
+    expandAllBtn.textContent = allOpen ? 'Collapse All' : 'Expand All';
+  }
+
+  if (expandAllBtn && tlToggles.length) {
+    expandAllBtn.addEventListener('click', () => {
+      const shouldOpen = expandAllBtn.textContent.trim() === 'Expand All';
+      tlToggles.forEach((t) => t.setAttribute('aria-expanded', String(shouldOpen)));
+      updateExpandAllLabel();
+    });
+  }
+
   // ── PROJECT PHOTO GALLERIES ──────────────────────────────────────────
+
+  // If a file is missing, hide the <img> entirely rather than showing the
+  // browser's default broken-image icon — the transparent bordered
+  // container is left visible on its own.
+  function watchForBrokenImage(img) {
+    if (!img || img.dataset.fallbackWired) return;
+    img.dataset.fallbackWired = 'true';
+    img.addEventListener('error', () => img.classList.add('img-missing'));
+    img.addEventListener('load', () => img.classList.remove('img-missing'));
+    // If the browser already tried and failed before this listener attached
+    if (img.complete && img.naturalWidth === 0 && img.getAttribute('src')) {
+      img.classList.add('img-missing');
+    }
+  }
+
+  document.querySelectorAll('.proj-gallery img').forEach(watchForBrokenImage);
 
   document.querySelectorAll('.proj-gallery').forEach((gallery) => {
     const mainEl = gallery.querySelector('.gallery-main');
@@ -262,6 +305,7 @@
           img.className = rotated ? 'rotated' : '';
           img.alt = '';
           img.src = src;
+          watchForBrokenImage(img);
         }
       });
     });
