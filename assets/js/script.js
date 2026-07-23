@@ -42,24 +42,20 @@
     // just look like an inverted dark mode.
     const palettes = {
       dark: {
-        clear:       'rgba(0,0,0,0.09)',
-        grid:        'rgba(247,147,76,0.045)',
-        glow:        'rgba(247,147,76,0.10)',
-        glowShadow:  'rgba(247,147,76,0.25)',
-        trace:       'rgba(247,147,76,0.88)',
-        traceShadow: 'rgba(247,147,76,0.9)',
-        trace2:      'rgba(204,88,3,0.28)',
-        trace2Shadow:'rgba(204,88,3,0.35)',
+        clear:     'rgba(0,0,0,0.09)',
+        grid:      'rgba(247,147,76,0.045)',
+        glowWide:  'rgba(247,147,76,0.035)',
+        glowMid:   'rgba(247,147,76,0.07)',
+        trace:     'rgba(247,147,76,0.88)',
+        trace2:    'rgba(204,88,3,0.28)',
       },
       light: {
-        clear:       'rgba(246,241,231,0.16)',
-        grid:        'rgba(193,87,31,0.07)',
-        glow:        'rgba(193,87,31,0.12)',
-        glowShadow:  'rgba(193,87,31,0.2)',
-        trace:       'rgba(193,87,31,0.85)',
-        traceShadow: 'rgba(193,87,31,0.55)',
-        trace2:      'rgba(140,61,0,0.3)',
-        trace2Shadow:'rgba(140,61,0,0.3)',
+        clear:     'rgba(246,241,231,0.16)',
+        grid:      'rgba(193,87,31,0.07)',
+        glowWide:  'rgba(193,87,31,0.05)',
+        glowMid:   'rgba(193,87,31,0.09)',
+        trace:     'rgba(193,87,31,0.85)',
+        trace2:    'rgba(140,61,0,0.3)',
       },
     };
 
@@ -72,6 +68,17 @@
       canvas.width  = canvas.offsetWidth  * dpr;
       canvas.height = canvas.offsetHeight * dpr;
       ctx.scale(dpr, dpr);
+    }
+
+    // Traces a wave path once and returns it as a reusable Path2D so the
+    // three passes below don't each have to recompute per-pixel Math.sin
+    // calls for the same curve.
+    function buildPath(W, waveFn) {
+      const path = new Path2D();
+      for (let x = 0; x <= W; x++) {
+        x === 0 ? path.moveTo(x, waveFn(x)) : path.lineTo(x, waveFn(x));
+      }
+      return path;
     }
 
     function drawOsc() {
@@ -100,44 +107,37 @@
           + Math.sin(t * 0.5 + 0.6) * (H * 0.07);
       }
 
-      // Glow bloom
-      ctx.beginPath();
-      ctx.strokeStyle = p.glow;
-      ctx.lineWidth   = 8;
-      ctx.shadowColor = p.glowShadow;
-      ctx.shadowBlur  = 20;
-      for (let x = 0; x <= W; x++) {
-        x === 0 ? ctx.moveTo(x, wave(x)) : ctx.lineTo(x, wave(x));
-      }
-      ctx.stroke();
+      const mainPath = buildPath(W, wave);
 
-      // Sharp trace
-      ctx.beginPath();
+      // Glow — layered wide/mid strokes instead of shadowBlur. shadowBlur
+      // forces a per-frame blur-kernel pass over the stroked region, which
+      // is notably expensive in Firefox/Gecko; a couple of flat, wider,
+      // low-opacity strokes look nearly identical for a cost closer to a
+      // normal stroke.
+      ctx.lineCap = 'round';
+      ctx.strokeStyle = p.glowWide;
+      ctx.lineWidth   = 16;
+      ctx.stroke(mainPath);
+
+      ctx.strokeStyle = p.glowMid;
+      ctx.lineWidth   = 8;
+      ctx.stroke(mainPath);
+
+      // Sharp trace (crisp core line, no glow needed here)
       ctx.strokeStyle = p.trace;
       ctx.lineWidth   = 1.5;
-      ctx.shadowColor = p.traceShadow;
-      ctx.shadowBlur  = 7;
-      for (let x = 0; x <= W; x++) {
-        x === 0 ? ctx.moveTo(x, wave(x)) : ctx.lineTo(x, wave(x));
-      }
-      ctx.stroke();
+      ctx.stroke(mainPath);
 
       // Secondary amber trace (lower)
       function wave2(x) {
         const t = (x / W) * 7 * Math.PI + phase * 1.35;
         return cy + H * 0.17 + Math.sin(t) * (H * 0.065) + Math.sin(t * 2.7 + 0.9) * (H * 0.025);
       }
-      ctx.beginPath();
+      const secondaryPath = buildPath(W, wave2);
       ctx.strokeStyle = p.trace2;
       ctx.lineWidth   = 1;
-      ctx.shadowColor = p.trace2Shadow;
-      ctx.shadowBlur  = 5;
-      for (let x = 0; x <= W; x++) {
-        x === 0 ? ctx.moveTo(x, wave2(x)) : ctx.lineTo(x, wave2(x));
-      }
-      ctx.stroke();
+      ctx.stroke(secondaryPath);
 
-      ctx.shadowBlur = 0;
       phase += 0.011;
       raf = requestAnimationFrame(drawOsc);
     }
