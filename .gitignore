@@ -3,7 +3,7 @@ node_modules/
 package-lock.json
 
 # Generated HTML output 
-# dist/
+# blog/
 
 # Mac system files
 .DS_Store

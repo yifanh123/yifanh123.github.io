@@ -4,7 +4,7 @@ const matter = require('gray-matter');
 
 // Paths pointing out of the assets/js folder
 const POSTS_DIR = path.join(__dirname, '../../posts');
-const OUTPUT_DIR = path.join(__dirname, '../../dist');
+const OUTPUT_DIR = path.join(__dirname, '../../blog');
 
 // Ensure the output directory exists
 if (!fs.existsSync(OUTPUT_DIR)) {
