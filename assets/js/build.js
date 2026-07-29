@@ -48,7 +48,19 @@ const createBaseHTML = (title, content) => `
       </button>
 
       <ul class="nav-links" id="nav-links">
-        <li><a href="../index.html">Portfolio</a></li>
+        <!-- Portfolio with Dropdown (pointing back to the main site) -->
+        <li class="nav-dropdown">
+          <a href="../index.html" class="nav-dropbtn">Portfolio</a>
+          <div class="nav-dropdown-content">
+            <a href="../index.html#about">About</a>
+            <a href="../index.html#experience">Experience</a>
+            <a href="../index.html#projects">Projects</a>
+            <a href="../index.html#education">Education</a>
+            <a href="../index.html#contact">Contact</a>
+          </div>
+        </li>
+        
+        <!-- Blog Link -->
         <li><a href="index.html">Blog</a></li>
       </ul>
 

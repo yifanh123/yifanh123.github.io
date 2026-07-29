@@ -1,6 +1,7 @@
 ---
 title: My First Blog Post
 date: 2026-07-29
+metaDescription: First blog post.
 summary: This is a snapshot description of my very first blog post.
 ---
 
