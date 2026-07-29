@@ -1,0 +1,12 @@
+# Node dependencies
+node_modules/
+package-lock.json
+
+# Generated HTML output 
+# dist/
+
+# Mac system files
+.DS_Store
+
+# Windows system files
+Thumbs.db
