@@ -1,0 +1,319 @@
+/* ────────────────────────────────────────────────────────────────────────
+   BLOG STYLES
+   Loaded after styles.css — reuses all theme variables (--bg, --phosphor,
+   --font-display, --font-mono, etc.) so the blog matches the main site
+   without redefining the palette. Organized the same way as styles.css:
+     1. Blog header / breadcrumb
+     2. Post grid & cards
+     3. Article page
+     4. Prev/Next + back-to-top
+     5. Media queries
+──────────────────────────────────────────────────────────────────────── */
+
+/* ── 1. BLOG HEADER ──────────────────────────────────────────────────── */
+
+.blog-crumb {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 0.62rem; color: var(--text-dimmer);
+  letter-spacing: 0.14em; text-transform: uppercase;
+  text-decoration: none; margin-bottom: 28px;
+  transition: color 0.2s;
+}
+.blog-crumb:hover { color: var(--phosphor); }
+.blog-crumb svg { width: 12px; height: 12px; }
+
+.blog-hero {
+  padding: 130px 24px 60px;
+  max-width: 1180px; margin: 0 auto;
+}
+.blog-hero .sec-title { margin-bottom: 20px; }
+.blog-intro {
+  font-size: 0.88rem; color: var(--text-dim);
+  line-height: 1.9; max-width: 560px;
+}
+
+/* ── 2. POST GRID & CARDS ─────────────────────────────────────────────── */
+
+.blog-grid {
+  max-width: 1180px; margin: 0 auto;
+  padding: 20px 24px 100px;
+  display: grid; grid-template-columns: 1fr;
+  gap: 28px;
+}
+
+.post-card {
+  display: block; text-decoration: none; color: inherit;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+  transition: border-color 0.25s var(--ease), transform 0.25s var(--ease);
+}
+.post-card:hover { border-color: var(--phosphor); transform: translateY(-3px); }
+
+.post-card-media {
+  width: 100%; aspect-ratio: 16/9;
+  overflow: hidden; background: var(--bg-2);
+  border-bottom: 1px solid var(--border);
+}
+.post-card-media img {
+  width: 100%; height: 100%; object-fit: cover;
+  transition: transform 0.4s var(--ease);
+}
+.post-card:hover .post-card-media img { transform: scale(1.04); }
+
+.post-card-body { padding: 22px 24px 26px; }
+
+/* Timestamp styled like a serial-console readout — ties the card meta
+   back into the embedded-systems / oscilloscope motif from the main site */
+.post-card-meta {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 0.6rem; color: var(--phosphor);
+  letter-spacing: 0.08em; margin-bottom: 12px;
+}
+.post-card-meta time { color: var(--phosphor); }
+.post-card-meta .dot-sep { color: var(--text-dimmer); }
+.post-card-meta .read-time { color: var(--text-dimmer); }
+
+.post-card-title {
+  font-family: var(--font-display);
+  font-size: 1.4rem; font-weight: 400; color: var(--text);
+  line-height: 1.25; margin-bottom: 10px;
+  transition: color 0.2s;
+}
+.post-card:hover .post-card-title { color: var(--phosphor); }
+
+.post-card-excerpt {
+  font-size: 0.82rem; color: var(--text-dim); line-height: 1.75;
+  margin-bottom: 18px; max-width: 60ch;
+}
+
+.post-card-footer {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 12px; flex-wrap: wrap;
+}
+
+.post-card-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.post-card-tags .tl-tag { font-size: 0.55rem; }
+
+.post-card-read {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 0.6rem; color: var(--text-dim);
+  letter-spacing: 0.1em; text-transform: uppercase;
+  white-space: nowrap;
+}
+.post-card-read svg {
+  width: 12px; height: 12px;
+  transition: transform 0.2s var(--ease);
+}
+.post-card:hover .post-card-read { color: var(--phosphor); }
+.post-card:hover .post-card-read svg { transform: translateX(3px); }
+
+.blog-empty {
+  font-size: 0.85rem; color: var(--text-dimmer);
+  padding: 40px 0; text-align: center;
+}
+
+/* ── 3. ARTICLE PAGE ──────────────────────────────────────────────────── */
+
+.article-header {
+  max-width: 760px; margin: 0 auto;
+  padding: 130px 24px 40px;
+}
+
+.article-meta {
+  display: flex; align-items: center; flex-wrap: wrap; gap: 10px;
+  font-size: 0.62rem; color: var(--phosphor);
+  letter-spacing: 0.1em; text-transform: uppercase;
+  margin-bottom: 22px;
+}
+.article-meta .dot-sep { color: var(--text-dimmer); }
+.article-meta .read-time { color: var(--text-dimmer); }
+
+.article-title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 7vw, 3.2rem);
+  font-weight: 300; line-height: 1.08; letter-spacing: -0.01em;
+  color: var(--text); margin-bottom: 22px;
+}
+.article-title em { font-style: italic; color: var(--phosphor); }
+
+.article-cover {
+  width: 100%; aspect-ratio: 16/9;
+  border-radius: 8px; overflow: hidden;
+  border: 1px solid var(--border);
+  margin: 8px 0 4px;
+}
+.article-cover img { width: 100%; height: 100%; object-fit: cover; }
+
+.article-body {
+  max-width: 700px; margin: 0 auto;
+  padding: 20px 24px 60px;
+  font-size: 0.92rem; color: var(--text-dim); line-height: 1.9;
+}
+
+.article-body h2 {
+  font-family: var(--font-display);
+  font-size: 1.7rem; font-weight: 400; color: var(--text);
+  margin: 48px 0 18px; line-height: 1.2;
+}
+.article-body h3 {
+  font-family: var(--font-display);
+  font-size: 1.3rem; font-weight: 400; color: var(--text);
+  margin: 36px 0 14px; line-height: 1.25;
+}
+.article-body p { margin-bottom: 22px; }
+.article-body strong { color: var(--text); }
+.article-body a { color: var(--phosphor); text-decoration-color: rgba(247,147,76,0.4); }
+.article-body a:hover { text-decoration-color: var(--phosphor); }
+
+.article-body ul, .article-body ol {
+  margin: 0 0 22px 0; padding-left: 22px;
+}
+.article-body ul { list-style: disc; }
+.article-body ol { list-style: decimal; }
+.article-body li { margin-bottom: 10px; }
+.article-body li::marker { color: var(--phosphor); }
+
+.article-body blockquote {
+  border-left: 2px solid var(--phosphor);
+  padding: 4px 0 4px 20px;
+  margin: 28px 0;
+  color: var(--text-dim); font-style: italic;
+}
+
+.article-body code {
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 2px 6px;
+  color: var(--phosphor);
+}
+
+.article-body pre {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 18px 20px;
+  overflow-x: auto;
+  margin: 24px 0;
+}
+.article-body pre code {
+  background: none; border: none; padding: 0;
+  color: var(--text-dim); font-size: 0.8rem; line-height: 1.7;
+}
+
+.article-body figure { margin: 28px 0; }
+.article-body figure img {
+  width: 100%; border-radius: 8px; border: 1px solid var(--border);
+}
+.article-body figcaption {
+  font-size: 0.7rem; color: var(--text-dimmer);
+  margin-top: 10px; text-align: center;
+}
+
+.article-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 44px; }
+
+/* ── 4. PREV/NEXT + BACK TO TOP ───────────────────────────────────────── */
+
+.article-nav {
+  max-width: 700px; margin: 0 auto;
+  padding: 0 24px 100px;
+  display: grid; grid-template-columns: 1fr; gap: 12px;
+}
+
+.article-nav-link {
+  display: flex; flex-direction: column; gap: 6px;
+  padding: 20px 22px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  text-decoration: none; color: inherit;
+  transition: border-color 0.2s, transform 0.2s var(--ease);
+}
+.article-nav-link:hover { border-color: var(--phosphor); transform: translateY(-2px); }
+
+.article-nav-lbl {
+  font-size: 0.58rem; color: var(--text-dimmer);
+  letter-spacing: 0.15em; text-transform: uppercase;
+  display: flex; align-items: center; gap: 6px;
+}
+.article-nav-link.next .article-nav-lbl { justify-content: flex-end; }
+.article-nav-title {
+  font-family: var(--font-display);
+  font-size: 1.15rem; color: var(--text);
+}
+.article-nav-link.next { text-align: right; align-items: flex-end; }
+
+/* ── 5. MEDIA QUERIES ─────────────────────────────────────────────────── */
+
+@media (min-width: 700px) {
+  .article-nav { grid-template-columns: 1fr 1fr; }
+}
+
+@media (min-width: 961px) {
+  .blog-hero { padding: 150px 56px 70px; }
+  .blog-grid {
+    padding: 20px 56px 120px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px;
+  }
+  .article-header { padding: 150px 56px 44px; }
+  .article-body { padding: 20px 56px 70px; }
+  .article-nav { padding: 0 56px 120px; }
+}
+
+@media (min-width: 1300px) {
+  .blog-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+/* ────────────────────────────────────────────────────────────────────────
+   6. MARKDOWN CONTENT EXTRAS
+   Produced by assets/js/build.js from custom post syntax — see
+   posts/_formatting-guide.md for the markdown that generates these.
+──────────────────────────────────────────────────────────────────────── */
+
+/* Wrap-around images: ![alt](src){.wrap-left} / {.wrap-right} */
+.article-body figure.wrap-left,
+.article-body figure.wrap-right {
+  max-width: 45%;
+  margin-bottom: 20px;
+}
+.article-body figure.wrap-left  { float: left;  margin-right: 26px; }
+.article-body figure.wrap-right { float: right; margin-left: 26px; }
+/* Clear floats at the end of the article so tags/nav don't sit beside a
+   trailing wrapped image */
+.article-body::after { content: ''; display: table; clear: both; }
+
+/* Multi-column blocks: :::cols-2 ... +++ ... ::: */
+.blog-cols {
+  display: grid; gap: 28px;
+  margin: 34px 0; clear: both;
+}
+.blog-cols-2 { grid-template-columns: repeat(2, 1fr); }
+.blog-cols-3 { grid-template-columns: repeat(3, 1fr); }
+.blog-col p:last-child { margin-bottom: 0; }
+
+/* Callout blocks: :::callout ... :::  (also callout-tip, callout-warning) */
+.callout {
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--phosphor);
+  background: var(--bg-2);
+  border-radius: 6px;
+  padding: 18px 22px;
+  margin: 30px 0;
+  font-size: 0.85rem;
+}
+.callout p:last-child { margin-bottom: 0; }
+.callout-tip     { border-left-color: #4CAF82; }
+.callout-warning { border-left-color: #D9534F; }
+
+@media (max-width: 700px) {
+  .article-body figure.wrap-left,
+  .article-body figure.wrap-right {
+    float: none; max-width: 100%; margin: 0 0 20px;
+  }
+  .blog-cols-2, .blog-cols-3 { grid-template-columns: 1fr; }
+}

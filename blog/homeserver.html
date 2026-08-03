@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>
+  (() => {
+    const stored = localStorage.getItem('theme');
+    const theme = stored || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+    document.documentElement.setAttribute('data-theme', theme);
+  })();
+</script>
+<title>How running a home server affected my workflow. — Yifan Hu</title>
+<meta name="description" content="How to set up home server using raspberry pi.">
+
+<link rel="icon" type="image/svg+xml" href="../assets/images/favicon.svg">
+
+<meta property="og:type" content="article">
+<meta property="og:title" content="How running a home server affected my workflow.">
+<meta property="og:description" content="How to set up home server using raspberry pi.">
+
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/styles.css">
+<link rel="stylesheet" href="../assets/css/blog.css">
+</head>
+<body>
+
+<header>
+  <nav id="nav">
+    <a href="../index.html" class="nav-logo">Yifan <span>Hu</span></a>
+    <div class="nav-right">
+      <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Switch to light theme">
+        <svg class="icon-sun" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+        <svg class="icon-moon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="../index.html#about">About</a></li>
+        <li><a href="../index.html#projects">Projects</a></li>
+        <li><a href="../index.html#contact">Contact</a></li>
+        <li><a href="index.html" class="active">Blog</a></li>
+      </ul>
+      <button type="button" class="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="nav-links">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+</header>
+
+<main>
+
+  <div class="article-header">
+    <a href="index.html" class="blog-crumb">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
+      Back to Blog
+    </a>
+    <div class="article-meta">
+      <time datetime="2026-07-31">2026.07.30</time>
+      <span class="dot-sep">&middot;</span>
+      <span class="read-time">8 min read</span>
+    </div>
+    <h1 class="article-title">How running a home server affected my workflow.</h1>
+  </div>
+  
+  <article class="article-body">
+    <h1>Raspberry Pi 4 Home Server</h1>
+<p>I started running a home server a few months ago and it has made my life a whole lot better. I am going to go over some of the quality of life improvements how to set this up yourself. All of the software I will mention is completely free and opensource, the only things that are a bit pricy is the raspberry pi itself and maybe a storage device.</p>
+<h2>QOL Improvements</h2>
+<p>I will talk about these in the order I discovered them. This is not the best order to start but it&#39;s inconsequential, all the projects are separate and don&#39;t affect each other.</p>
+<h3>PiHole (Ad block)</h3>
+<p>Dislike random pop-ups when browsing the internet? By routing my own DNS server using pi-hole, I got rid of a majority of advertisements and pop-ups that appear.
+The DNS server is like signs on the bridge that connects your home wi-fi to the internet. How the ad block works, is by sending ad traffic to dead ends, making them fall into empty pits instead of getting in to your home. The DNS server will route the ad packets away so they never reach the wi-fi that you are actively using. This helps performance as well, as ads are blocked before they even load in.
+Unfortunately, this method doesn&#39;t block important ads, like on Youtube. Youtube ads are built in the video player so if the DNS tries to block this, the video would also not load. I still haven&#39;t found a great way around this, and the ad block extension that I used to use stopped working, so I guess Youtube won this fight.</p>
+<h3>Wireguard (VPN)</h3>
+<p>This was the main reason I wanted to set up the home server. I wanted a way to remote desktop into my PC from classes and this was the easiest way to approach it. Windows Pro has a built in remote desktop system that requires your access computer to be on the same Wi-fi and a VPN just solves that issue. A plus with the vpn is it automatically runs the ad block so I do not need to set up the adblock on my laptop.</p>
+<p>The VPN works very well, it even works around China&#39;s firewall. Very much recommend, my brother could play his video games because of this :thumbsup:.</p>
+<h3>Nextcloud (Cloud Storage)</h3>
+<p>Cloud storage might be the greatest thing humanity has ever invented. It was always annoying needed to move files from my macbook to my PC, needing to physically move a hard drive from one computer to another. Before this, I would use Dropbox, which does work, nothing against Dropbox, but I would prefer not to spend that money.</p>
+<p>All my files moved onto an external hard drive (these are pretty expensive these days) and now I can just transfer files from my laptop to this and have it here.</p>
+<h3>Vaultwarden (Password Manager)</h3>
+<p>Since I already have all of this set up, why keep using google&#39;s password manager? Yeah I don&#39;t really know why I did this. Vaultwarden is just like any password manager app. All it does is keep your passwords together so you don&#39;t lose it. It uses Bitwarden&#39;s ecosystem so you get most of the benefits from Bitwarden. I am a very forgetful person and really need a good password manager to remember my passwords for me. This is just easier way to get all my passwords, and on a plus side, I know where all of it is stored.</p>
+<h2>How to set all of this up.</h2>
+<p>Raspberry pi required (I set this up on a pi4), external hard drive highly prefered.
+This is 100% able to run on anything that runs docker, but this is just how I set this up and how I know how to do it.</p>
+<h2>Raspberry Pi setup</h2>
+<h3>Downloading OS image</h3>
+<p>This one is pretty simple. When you first get a Raspberry Pi, depending on where you got it from, there might be an image already on it. But because we are using this as a home server and not a computer, we don&#39;t really need a lot of the features a full image has like the GUI. Because of this, we are going to manually download a new image onto the raspberry pi.</p>
+<p>First, we need to get raspberry pi imager. <a href="https://www.raspberrypi.com/software/">https://www.raspberrypi.com/software/</a> This allows us to install our prefered version. Of course, any working version works here but I picked the lite version for performance, cutting out all unnecessary processing power.</p>
+<p>Now we are to get the micro SD card from the pi and connect it to our computer. The imager asks for the device, the OS, and the storage. The device is just your version of raspberry pi. The OS I picked is &quot;Raspberry Pi OS Lite (64-bit)&quot; which is under the other section of the imager. And storage, make sure to select the correct storage device. This will ERASE all the files on the device before writing and it is PERMANENT. Double check to make sure you selected the micro SD card that the raspberry pi was using.</p>
+<p>Now it will pop up some setting. It requires a host name, which I just called &quot;raspberrypi&quot;. Enable SSH, this allows us to use any computer on the network to access the pi, so you don&#39;t need to connect periferals to the pi. Set a username and password for the SSH, usually username gets defaulted to pi but make sure to set a good password.
+If you have ethernet, skip this, but if you are connecting the pi to the interet via Wi-fi, make sure to put in the network name, password, and country code.
+Other settings are optional but you can scroll through them to set time zone, keyboard layout, etc.</p>
+<h3>Connecting to the Pi</h3>
+<p>Now, the Raspberry Pi image is all installed. Let&#39;s plug in the pi and boot it up.</p>
+<p>First, the pi will need to connect to the internet. Plug in the ethernet cable, or if you set up Wi-fi, it would auto connect. To find the pi&#39;s IP address there are a few methods.
+Check your network from your router. The router provider should give an app or website that gives you access to DHCP of your Wi-fi network. This is the service that assigns IP addresses to devices that connect to the router. Reading this, you can get the IP address of your pi.
+Something similar to that is to get a network scanner app like fing on your phone, that will scall the entire network and tell you what IP&#39;s are assigned to what, though there is a chance that the the name might not appear.
+The most reliable way to find this is just to connect a keyboard and monitor to the pi and look it up in the terminal and run:
+<code>ip a</code>
+To get the correct IP address, you are looking for either eth or wlan, make sure not to grab the 127.0.0.1. This is the local IP and does not connect anyway. Big change it starts with 192.168.x.x, because those two numbers is the header of all home networks.
+Once you know the IP address, we can connect to the pi with ssh, so we don&#39;t need to have the keyboard and monitor connected to the pi to work on it. Open command prompt or terminal and run:</p>
+<pre><code>ssh pi@192.168.x.x
+</code></pre>
+<p>It will prompt you for username and password, this is what you set up in the Raspberry Pi Imager.</p>
+<h3>Update and Static IP</h3>
+<p>The first thing to do is to update the pi, run:</p>
+<pre><code>sudo apt update &amp;&amp; sudo apt upgrade -y
+</code></pre>
+<p>It might prompt you to put in the password.</p>
+<p>We want the IP address of the pi to never change, due to system requirements from most of the software we are using. There are two ways to do this.</p>
+<p>Option 1, set a DHCP reservation on the router app or website you used previously.</p>
+<p>Option 2, set this up directly on the raspberry pi. By running</p>
+<pre><code>sudo nano -w /etc/dhcpcd.conf
+</code></pre>
+<p>you can edit the config file and uncomment out the static IP configuration line. Put the static IP address you want for the pi, and add the gateway (this will be the router&#39;s IP address and is usually the IP address ending with .1) and DNS servers (point this to the router and use 1.1.1.1).</p>
+<pre><code># Example static IP configuration:
+interface eth0
+static ip_address=192.168.x.x/24
+# static ip6_address=fd51:42f8:caae:d92e::ff/64
+static routers=192.168.x.1
+static domain_name_servers=192.168.x.1 1.1.1.1
+</code></pre>
+<p>I left the ip6 out because it is not necessary. Hit ctrl+x to exit and save. To make the pi use these network settings, reboot it by running</p>
+<pre><code>sudo reboot
+</code></pre>
+<h2>Installing pi-hole</h2>
+<p>SSH back into to the pi, remember to use the new static IP that was just assigned, then run:</p>
+<pre><code>curl -sSL https://install.pi-hole.net | bash
+</code></pre>
+<p>Once it gets installed it will start up a setup wizard, follow all of the steps on the wizard to finish the install. Past the first couple pages, the wizard will give a warning about setting up a static IP address but you can hit continue because we have already set this up. Double check that the static IP that the pi reads is correct and set it to the custom static IP. </p>
+
+    <ul class="tags article-tags"><li class="tag">Home Server</li><li class="tag">Raspberry Pi</li></ul>
+  </article>
+  
+</main>
+
+<footer>
+  <span class="footer-t">&copy; 2026 Yifan Hu &mdash; Electrical Engineering @ UCLA</span>
+  <span class="footer-t">Built with precision.</span>
+</footer>
+
+<script src="../assets/js/script.js" defer></script>
+</body>
+</html>
