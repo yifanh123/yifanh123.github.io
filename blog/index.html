@@ -36,17 +36,19 @@
         <svg class="icon-sun" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
         <svg class="icon-moon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
       </button>
-      <li class="nav-dropdown">
-        <a href="#hero" class="nav-dropbtn">Portfolio</a>
-        <div class="nav-dropdown-content">
-          <a href="../index.html#about">About</a>
-          <a href="../index.html#experience">Experience</a>
-          <a href="../index.html#projects">Projects</a>
-          <a href="../index.html#education">Education</a>
-          <a href="../index.html#contact">Contact</a>
-        </div>
-      </li>
-      <li><a href="index.html">Blog</a></li>
+      <ul class="nav-links" id="nav-links">
+        <li class="nav-dropdown">
+          <a href="../index.html#hero" class="nav-dropbtn">Portfolio</a>
+          <div class="nav-dropdown-content">
+            <a href="../index.html#about">About</a>
+            <a href="../index.html#experience">Experience</a>
+            <a href="../index.html#projects">Projects</a>
+            <a href="../index.html#education">Education</a>
+            <a href="../index.html#contact">Contact</a>
+          </div>
+        </li>
+        <li><a href="index.html" class="active">Blog</a></li>
+      </ul>
       <button type="button" class="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="nav-links">
         <span></span><span></span><span></span>
       </button>
@@ -64,7 +66,8 @@
     <div class="sec-label">Writeups</div>
     <h1 class="sec-title">Notes From <em>the Bench</em></h1>
     <p class="blog-intro">
-      Longer-form writeups on topics that I find worth sharing.
+      Longer-form writeups on projects that don't fit in a portfolio card —
+      what worked, what broke, and what I'd do differently next time.
     </p>
   </div>
   <div class="blog-grid">
@@ -75,7 +78,7 @@
         <div class="post-card-meta">
           <time datetime="2026-07-31">2026.07.30</time>
           <span class="dot-sep">&middot;</span>
-          <span class="read-time">8 min read</span>
+          <span class="read-time">14 min read</span>
         </div>
         <h3 class="post-card-title">How running a home server affected my workflow.</h3>
         <p class="post-card-excerpt">Setting up a home server using raspberry pi.</p>

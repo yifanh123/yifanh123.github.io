@@ -192,9 +192,16 @@ ${ogImageTag}
         <svg class="icon-moon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
       </button>
       <ul class="nav-links" id="nav-links">
-        <li><a href="../index.html#about">About</a></li>
-        <li><a href="../index.html#projects">Projects</a></li>
-        <li><a href="../index.html#contact">Contact</a></li>
+        <li class="nav-dropdown">
+          <a href="../index.html#hero" class="nav-dropbtn">Portfolio</a>
+          <div class="nav-dropdown-content">
+            <a href="../index.html#about">About</a>
+            <a href="../index.html#experience">Experience</a>
+            <a href="../index.html#projects">Projects</a>
+            <a href="../index.html#education">Education</a>
+            <a href="../index.html#contact">Contact</a>
+          </div>
+        </li>
         <li><a href="index.html" class="active">Blog</a></li>
       </ul>
       <button type="button" class="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="nav-links">
@@ -261,7 +268,8 @@ function renderIndexPage(posts) {
     <div class="sec-label">Writeups</div>
     <h1 class="sec-title">Notes From <em>the Bench</em></h1>
     <p class="blog-intro">
-      Longer-form writeups on topics that I find worth sharing.
+      Longer-form writeups on projects that don't fit in a portfolio card —
+      what worked, what broke, and what I'd do differently next time.
     </p>
   </div>
   <div class="blog-grid">

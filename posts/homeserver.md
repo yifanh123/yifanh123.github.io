@@ -34,7 +34,7 @@ Since I already have all of this set up, why keep using google's password manage
 
 ## How to set all of this up.
 Raspberry pi required (I set this up on a pi4), external hard drive highly prefered.
-This is 100% able to run on anything that runs docker, but this is just how I set this up and how I know how to do it.
+This is able to run on basically any device, but this is just how I set this up and how I know how to do it.
 
 ## Raspberry Pi setup
 
@@ -91,9 +91,7 @@ static routers=192.168.x.1
 static domain_name_servers=192.168.x.1 1.1.1.1
 ```
 I left the ip6 out because it is not necessary. Hit ctrl+x to exit and save. To make the pi use these network settings, reboot it by running
-```
-sudo reboot
-```
+```sudo reboot```
 
 ## Installing pi-hole
 
@@ -119,4 +117,108 @@ First run
 ```
 pihole -a -p
 ```
-to change the password to what you want it to be and now we can log in to the pi dashboard. Navigate to a web browser and go to the local IP address of the pi. http://192.168.x.x/admin. Enter the password that was previously set. Explore around, there will be a lot of setting that can be edited.
+to change the password to what you want it to be and now we can log in to the pi dashboard. Navigate to a web browser and go to the local IP address of the pi. http://192.168.x.x/admin. Enter the password that was previously set. Explore around, there will be a lot of setting that can be customized. The main sidebar options to focus on are Domain and Adlist.
+
+To tell what pi-hole blocks, it requires lists that get imported into the adlist by adding the links. Firebog has a lot of comprehensive block lists that can be added [https://firebog.net/](https://firebog.net/). After doing this, the gravity needs to be updated so pi-hole reads the new lists. Go to Tools -> Update Gravity and hit update to add the blocked domains to the database.
+
+Sometimes, adding too many lists will cause something extra to get accidently blocked, so there is a potential downside in putting all of the lists into adlist. If the domain that gets blocked is known, you can whitelist it in the Domain tab. Here are some commonly whitelisted domains [https://discourse.pi-hole.net/t/commonly-whitelisted-domains/212](https://discourse.pi-hole.net/t/commonly-whitelisted-domains/212). This is good for debugging websites that are not loading.
+
+## Unbound installation
+
+Do we trust cloudflare with out data? Obviously not, their security system is based off of lava lamps. Of course it does work, but we are so far along why not do our own DNS. We want to install unbound so big tech can't see what we searched up on their DNS servers. (only on their web browsers)
+ssh into the pi and run:
+```
+sudo apt install unbound -y
+```
+Write a configuration file using:
+```
+sudo nano -w /etc/unbound/unbound.conf.d/pi-hole.conf
+```
+Copy ll of this text into the config file, trust there is no malware, source ([https://docs.pi-hole.net/guides/dns/unbound/](https://docs.pi-hole.net/guides/dns/unbound/).)
+```
+server:
+# If no logfile is specified, syslog is used
+# logfile: "/var/log/unbound/unbound.log"
+verbosity: 0
+
+interface: 127.0.0.1
+port: 5335
+do-ip4: yes
+do-udp: yes
+do-tcp: yes
+
+# May be set to yes if you have IPv6 connectivity
+do-ip6: no
+
+# You want to leave this to no unless you have *native* IPv6. With 6to4 and
+# Terredo tunnels your web browser should favor IPv4 for the same reasons
+prefer-ip6: no
+
+# Use this only when you downloaded the list of primary root servers!
+# If you use the default dns-root-data package, unbound will find it automatically
+#root-hints: "/var/lib/unbound/root.hints"
+
+# Trust glue only if it is within the server's authority
+harden-glue: yes
+
+# Require DNSSEC data for trust-anchored zones, if such data is absent, the zone becomes BOGUS
+harden-dnssec-stripped: yes
+
+# Don't use Capitalization randomization as it known to cause DNSSEC issues sometimes
+# see https://discourse.pi-hole.net/t/unbound-stubby-or-dnscrypt-proxy/9378 for further details
+use-caps-for-id: no
+
+# Reduce EDNS reassembly buffer size.
+# IP fragmentation is unreliable on the Internet today, and can cause
+# transmission failures when large DNS messages are sent via UDP. Even
+# when fragmentation does work, it may not be secure; it is theoretically
+# possible to spoof parts of a fragmented DNS message, without easy
+# detection at the receiving end. Recently, there was an excellent study
+# >>> Defragmenting DNS - Determining the optimal maximum UDP response size for DNS <<<
+# by Axel Koolhaas, and Tjeerd Slokker (https://indico.dns-oarc.net/event/36/contributions/776/)
+# in collaboration with NLnet Labs explored DNS using real world data from the
+# the RIPE Atlas probes and the researchers suggested different values for
+# IPv4 and IPv6 and in different scenarios. They advise that servers should
+# be configured to limit DNS messages sent over UDP to a size that will not
+# trigger fragmentation on typical network links. DNS servers can switch
+# from UDP to TCP when a DNS response is too big to fit in this limited
+# buffer size. This value has also been suggested in DNS Flag Day 2020.
+edns-buffer-size: 1232
+
+# Perform prefetching of close to expired message cache entries
+# This only applies to domains that have been frequently queried
+prefetch: yes
+
+# One thread should be sufficient, can be increased on beefy machines. In reality for most users running on small networks or on a single machine, it should be unnecessary to seek performance enhancement by increasing num-threads above 1.
+num-threads: 1
+
+# Ensure kernel buffer is large enough to not lose messages in traffic spikes
+so-rcvbuf: 1m
+
+# Ensure privacy of local IP ranges
+private-address: 192.168.0.0/16
+private-address: 169.254.0.0/16
+private-address: 172.16.0.0/12
+private-address: 10.0.0.0/8
+private-address: fd00::/8
+private-address: fe80::/10
+```
+
+Then restart the service so the config document works as intended.
+```
+sudo service unbound restart
+```
+
+And status update. Look for ```active (running)``` and its all set
+```
+sudo service unbound status
+```
+
+## Link unbound to pi-hole
+
+Log onto the admin web interface (hopefully the password isn't forgetten yet) and go to Settings -> DNS. Uncheck all the boxes and add a custom IPv4 entry for unbound ```127.0.0.1#5335```. This number is set up in config file.
+
+That is all for ad block and DNS. Test it with this website: [https://canyoublockit.com/](https://canyoublockit.com/). Also make sure to update it once in a while.
+```
+sudo pihole -up
+```
