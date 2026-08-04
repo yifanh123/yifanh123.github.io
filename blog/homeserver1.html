@@ -22,7 +22,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/css/styles.css">
 <link rel="stylesheet" href="../assets/css/blog.css">
 </head>
@@ -64,7 +64,7 @@
       Back to Blog
     </a>
     <div class="article-meta">
-      <time datetime="2026-07-31">2026.07.30</time>
+      <time datetime="2026-08-04">2026.08.04</time>
       <span class="dot-sep">&middot;</span>
       <span class="read-time">14 min read</span>
     </div>
@@ -88,7 +88,7 @@ Unfortunately, this method doesn&#39;t block important ads, like on Youtube. You
 <h3>Vaultwarden (Password Manager)</h3>
 <p>Since I already have all of this set up, why keep using google&#39;s password manager? Yeah I don&#39;t really know why I did this. Vaultwarden is just like any password manager app. All it does is keep your passwords together so you don&#39;t lose it. It uses Bitwarden&#39;s ecosystem so you get most of the benefits from Bitwarden. I am a very forgetful person and really need a good password manager to remember my passwords for me. This is just easier way to get all my passwords, and on a plus side, I know where all of it is stored.</p>
 <h2>How to set all of this up.</h2>
-<p>Raspberry pi required (I set this up on a pi4), external hard drive highly prefered.
+<p>Raspberry pi required (I set this up on a pi4), external hard drive is prefered. A external hard drive might run into power issues, so I am currently building a PDU for a pi ecosystem, but you could also just get a USB3.0 powered hub for cheap.
 This is able to run on basically any device, but this is just how I set this up and how I know how to do it.</p>
 <h2>Raspberry Pi setup</h2>
 <h3>Downloading OS image</h3>
@@ -234,9 +234,25 @@ private-address: fe80::/10
 <p>That is all for ad block and DNS. Test it with this website: <a href="https://canyoublockit.com/">https://canyoublockit.com/</a>. Also make sure to update it once in a while.</p>
 <pre><code>sudo pihole -up
 </code></pre>
+<p>We have set up pi hole and unbound. The next post will (hopefully) cover the rest of the list.</p>
 
     <ul class="tags article-tags"><li class="tag">Raspberry Pi</li></ul>
   </article>
+  
+  <div class="post-signoff">
+    <div class="signoff-rule">End of Log</div>
+    <div class="signoff-author">
+      <div class="signoff-avatar" aria-hidden="true">YH</div>
+      <div>
+        <div class="signoff-name">Yifan Hu</div>
+        <div class="signoff-meta">
+          Electrical Engineering @ UCLA
+          <span class="dot-sep">&middot;</span>
+          Published <time datetime="2026-08-04">2026.08.04</time>
+        </div>
+      </div>
+    </div>
+  </div>
   
 </main>
 
@@ -246,5 +262,6 @@ private-address: fe80::/10
 </footer>
 
 <script src="../assets/js/script.js" defer></script>
+<script src="../assets/js/code-blocks.js" defer></script>
 </body>
 </html>

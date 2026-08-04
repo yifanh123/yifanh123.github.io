@@ -64,6 +64,11 @@ const matter = require('gray-matter');
 const POSTS_DIR = path.join(__dirname, '../../posts');
 const OUTPUT_DIR = path.join(__dirname, '../../blog');
 
+// Shown in the sign-off block at the end of every post — edit here if
+// either ever changes, rather than in the template functions below.
+const AUTHOR_NAME = 'Yifan Hu';
+const AUTHOR_ROLE = 'Electrical Engineering @ UCLA';
+
 // ── PATH HELPERS ─────────────────────────────────────────────────────────
 
 // Generated pages always live one level deep (/blog/*.html), so any image
@@ -178,7 +183,7 @@ ${ogImageTag}
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/css/styles.css">
 <link rel="stylesheet" href="../assets/css/blog.css">
 </head>
@@ -222,6 +227,7 @@ ${bodyHTML}
 </footer>
 
 <script src="../assets/js/script.js" defer></script>
+<script src="../assets/js/code-blocks.js" defer></script>
 </body>
 </html>
 `;
@@ -269,8 +275,8 @@ function renderIndexPage(posts) {
     <div class="sec-label">Writeups</div>
     <h1 class="sec-title">Notes From <em>the Bench</em></h1>
     <p class="blog-intro">
-      Longer-form writeups on projects that don't fit in a portfolio card —
-      what worked, what broke, and what I'd do differently next time.
+      Longer-form writeups on what I am doing with my time —
+      experiences on what works, what doesn't, and where I'm improving.
     </p>
   </div>
   <div class="blog-grid">
@@ -283,6 +289,30 @@ function renderIndexPage(posts) {
     ogImage: null,
     bodyHTML: body,
   });
+}
+
+function renderSignoff(post) {
+  const initials = AUTHOR_NAME
+    .split(' ')
+    .map((w) => w[0])
+    .join('')
+    .toUpperCase();
+
+  return `
+  <div class="post-signoff">
+    <div class="signoff-rule">End of Log</div>
+    <div class="signoff-author">
+      <div class="signoff-avatar" aria-hidden="true">${initials}</div>
+      <div>
+        <div class="signoff-name">${escapeHTML(AUTHOR_NAME)}</div>
+        <div class="signoff-meta">
+          ${escapeHTML(AUTHOR_ROLE)}
+          <span class="dot-sep">&middot;</span>
+          Published <time datetime="${post.dateISO}">${post.dateDisplay}</time>
+        </div>
+      </div>
+    </div>
+  </div>`;
 }
 
 function renderPostPage(post, prev, next) {
@@ -306,6 +336,8 @@ function renderPostPage(post, prev, next) {
       </nav>`
     : '';
 
+  const signoff = renderSignoff(post);
+
   const body = `
   <div class="article-header">
     <a href="index.html" class="blog-crumb">
@@ -324,6 +356,7 @@ function renderPostPage(post, prev, next) {
     ${post.html}
     ${tags}
   </article>
+  ${signoff}
   ${navLinks}`;
 
   return renderShell({

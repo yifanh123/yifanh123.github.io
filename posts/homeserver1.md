@@ -1,7 +1,7 @@
 ---
 title: How running a home server affected my workflow. Part 1.
 tabTitle: Raspberry Pi Home Server
-date: 2026-07-31
+date: 2026-08-4
 summary: Setting up a home server using raspberry pi.
 metaDescription: How to set up home server using raspberry pi.
 tags: [Raspberry Pi]
@@ -32,7 +32,7 @@ All my files moved onto an external hard drive (these are pretty expensive these
 Since I already have all of this set up, why keep using google's password manager? Yeah I don't really know why I did this. Vaultwarden is just like any password manager app. All it does is keep your passwords together so you don't lose it. It uses Bitwarden's ecosystem so you get most of the benefits from Bitwarden. I am a very forgetful person and really need a good password manager to remember my passwords for me. This is just easier way to get all my passwords, and on a plus side, I know where all of it is stored.
 
 ## How to set all of this up.
-Raspberry pi required (I set this up on a pi4), external hard drive highly prefered.
+Raspberry pi required (I set this up on a pi4), external hard drive is prefered. A external hard drive might run into power issues, so I am currently building a PDU for a pi ecosystem, but you could also just get a USB3.0 powered hub for cheap.
 This is able to run on basically any device, but this is just how I set this up and how I know how to do it.
 
 ## Raspberry Pi setup
@@ -223,3 +223,4 @@ That is all for ad block and DNS. Test it with this website: [https://canyoubloc
 ```
 sudo pihole -up
 ```
+We have set up pi hole and unbound. The next post will (hopefully) cover the rest of the list.
