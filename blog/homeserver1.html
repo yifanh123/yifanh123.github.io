@@ -10,13 +10,13 @@
     document.documentElement.setAttribute('data-theme', theme);
   })();
 </script>
-<title>How running a home server affected my workflow. — Yifan Hu</title>
+<title>Raspberry Pi Home Server — Yifan Hu</title>
 <meta name="description" content="How to set up home server using raspberry pi.">
 
 <link rel="icon" type="image/svg+xml" href="../assets/images/favicon.svg">
 
 <meta property="og:type" content="article">
-<meta property="og:title" content="How running a home server affected my workflow.">
+<meta property="og:title" content="How running a home server affected my workflow. Part 1.">
 <meta property="og:description" content="How to set up home server using raspberry pi.">
 
 
@@ -68,12 +68,11 @@
       <span class="dot-sep">&middot;</span>
       <span class="read-time">14 min read</span>
     </div>
-    <h1 class="article-title">How running a home server affected my workflow.</h1>
+    <h1 class="article-title">How running a home server affected my workflow. Part 1.</h1>
   </div>
   
   <article class="article-body">
-    <h1>Raspberry Pi 4 Home Server</h1>
-<p>I started running a home server a few months ago and it has made my life a whole lot better. I am going to go over some of the quality of life improvements how to set this up yourself. All of the software I will mention is completely free and opensource, the only things that are a bit pricy is the raspberry pi itself and maybe a storage device.</p>
+    <p>I started running a home server a few months ago and it has made my life a whole lot better. I am going to go over some of the quality of life improvements how to set this up yourself. All of the software I will mention is completely free and opensource, the only things that are a bit pricy is the raspberry pi itself and maybe a storage device.</p>
 <h2>QOL Improvements</h2>
 <p>I will talk about these in the order I discovered them. This is not the best order to start but it&#39;s inconsequential, all the projects are separate and don&#39;t affect each other.</p>
 <h3>PiHole + Unbound (Ad block + DNS)</h3>
@@ -137,8 +136,8 @@ static domain_name_servers=192.168.x.1 1.1.1.1
 </code></pre>
 <p>Once it gets installed it will start up a setup wizard, follow all of the steps on the wizard to finish the install. Past the first couple pages, the wizard will give a warning about setting up a static IP address but you can hit continue because we have already set this up. Double check that the static IP that the pi reads is correct and set it to the custom static IP. It will give three pages on this, setting the static IP is very important, so make sure to take your time to set it up correctly.</p>
 <p>It will ask to use an upstream DNS provider. Since Unbound will be installed later, the choice here is temporary so just pick anyone that seems cool. I went with cloudflare for this one.</p>
-<p>Note: Unbound is quite optional and upstream DNS providers can just work for the most part. Here is some documentation from offical pi-hole that covers which DNS providers are good for phishing, malware, etc.</p>
-<p>The next tab will ask for default block list, which will be the main list the ad block uses to determine what gets blocked. Click yes for now, but there will be a method to add more block lists later.</p>
+<div class="callout"><p>Note: Unbound is quite optional and upstream DNS providers can just work for the most part. Here is some documentation from offical pi-hole that covers which DNS providers are good for phishing, malware, etc.</p>
+</div><p>The next tab will ask for default block list, which will be the main list the ad block uses to determine what gets blocked. Click yes for now, but there will be a method to add more block lists later.</p>
 <p>Continue through installing an Admin Web interface, this is what we will be using later to modify settings for the pi-hole. Next, they ask about query logging. This option is for the dashboard to track what gets looked up on the DNS server (this can be used for another IOT project to track the houses traffic.) But if you are extra security minded, turning this off is not an issue. Next, it asks for the level of privacy for this data tracking, this just depends on the amount of information you want to be accessed through the dashboard.</p>
 <p>We are now set up. The pi-hole will start running its scripts and soon give an installation complete screen with instructions on how to navigate to the main dashboard, as well as the temporary password (which you don&#39;t need to write down as we will change it almost immediately).</p>
 <h3>Using the pi dashboard.</h3>
@@ -236,7 +235,7 @@ private-address: fe80::/10
 <pre><code>sudo pihole -up
 </code></pre>
 
-    <ul class="tags article-tags"><li class="tag">Home Server</li><li class="tag">Raspberry Pi</li></ul>
+    <ul class="tags article-tags"><li class="tag">Raspberry Pi</li></ul>
   </article>
   
 </main>

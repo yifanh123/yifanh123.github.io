@@ -14,6 +14,7 @@ anymore, or keep it around for reference.
 ```
 ---
 title: My Post Title
+tabTitle: Short Tab Title
 date: 2026-07-29
 summary: Shown on the blog index card. Keep it to 1-2 sentences.
 metaDescription: Optional — falls back to summary if you skip it.
@@ -23,6 +24,10 @@ cover: /assets/images/blog/my-cover.jpg
 ```
 
 Only `title` is required — everything else has a sensible fallback.
+
+`title` is what shows as the big `<h1>` on the post and in link previews —
+go long/descriptive there. `tabTitle` is what shows in the browser tab and
+history — keep that short. If you skip `tabTitle`, it just uses `title`.
 
 ### Plain image
 

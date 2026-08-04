@@ -1,12 +1,11 @@
 ---
-title: How running a home server affected my workflow.
+title: How running a home server affected my workflow. Part 1.
+tabTitle: Raspberry Pi Home Server
 date: 2026-07-31
 summary: Setting up a home server using raspberry pi.
 metaDescription: How to set up home server using raspberry pi.
-tags: [Home Server, Raspberry Pi]
+tags: [Raspberry Pi]
 ---
-
-# Raspberry Pi 4 Home Server
 
 I started running a home server a few months ago and it has made my life a whole lot better. I am going to go over some of the quality of life improvements how to set this up yourself. All of the software I will mention is completely free and opensource, the only things that are a bit pricy is the raspberry pi itself and maybe a storage device.
 
@@ -103,7 +102,9 @@ Once it gets installed it will start up a setup wizard, follow all of the steps 
 
 It will ask to use an upstream DNS provider. Since Unbound will be installed later, the choice here is temporary so just pick anyone that seems cool. I went with cloudflare for this one.
 
+:::callout
 Note: Unbound is quite optional and upstream DNS providers can just work for the most part. Here is some documentation from offical pi-hole that covers which DNS providers are good for phishing, malware, etc.
+:::
 
 The next tab will ask for default block list, which will be the main list the ad block uses to determine what gets blocked. Click yes for now, but there will be a method to add more block lists later.
 

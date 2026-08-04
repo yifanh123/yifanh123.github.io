@@ -14,6 +14,7 @@
  * WRITING A POST  (/posts/my-post.md)
  *   ---
  *   title: My Post Title
+ *   tabTitle: Short Tab Title       (optional — falls back to title)
  *   date: 2026-07-29
  *   summary: One or two sentences shown on the blog index card.
  *   metaDescription: Optional — falls back to summary if omitted.
@@ -148,7 +149,7 @@ function computeReadingTime(rawContent) {
 
 // ── HTML TEMPLATE ─────────────────────────────────────────────────────────
 
-function renderShell({ title, description, ogImage, bodyHTML }) {
+function renderShell({ title, tabTitle, description, ogImage, bodyHTML }) {
   const ogImageTag = ogImage
     ? `<meta property="og:image" content="${resolveImgPath(ogImage)}">`
     : '';
@@ -165,7 +166,7 @@ function renderShell({ title, description, ogImage, bodyHTML }) {
     document.documentElement.setAttribute('data-theme', theme);
   })();
 </script>
-<title>${escapeHTML(title)} — Yifan Hu</title>
+<title>${escapeHTML(tabTitle || title)} — Yifan Hu</title>
 <meta name="description" content="${escapeHTML(description || '')}">
 
 <link rel="icon" type="image/svg+xml" href="../assets/images/favicon.svg">
@@ -327,6 +328,7 @@ function renderPostPage(post, prev, next) {
 
   return renderShell({
     title: post.title,
+    tabTitle: post.tabTitle,
     description: post.metaDescription || post.summary,
     ogImage: post.cover,
     bodyHTML: body,
@@ -364,6 +366,7 @@ async function buildSite() {
       slug,
       url: `${slug}.html`,
       title: data.title || 'Untitled Post',
+      tabTitle: data.tabTitle || data.title || 'Untitled Post',
       date: data.date ? new Date(data.date) : new Date(),
       dateISO: formatDateISO(data.date),
       dateDisplay: formatDateDisplay(data.date),
