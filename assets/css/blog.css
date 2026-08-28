@@ -6,8 +6,7 @@
      1. Blog header / breadcrumb
      2. Post grid & cards
      3. Article page
-     4. Prev/Next + back-to-top
-     5. Media queries
+     4. Media queries
 ──────────────────────────────────────────────────────────────────────── */
 
 /* ── 1. BLOG HEADER ──────────────────────────────────────────────────── */
@@ -217,41 +216,7 @@
 
 .article-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 44px; }
 
-/* ── 4. PREV/NEXT + BACK TO TOP ───────────────────────────────────────── */
-
-.article-nav {
-  max-width: 700px; margin: 0 auto;
-  padding: 0 24px 100px;
-  display: grid; grid-template-columns: 1fr; gap: 12px;
-}
-
-.article-nav-link {
-  display: flex; flex-direction: column; gap: 6px;
-  padding: 20px 22px;
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  text-decoration: none; color: inherit;
-  transition: border-color 0.2s, transform 0.2s var(--ease);
-}
-.article-nav-link:hover { border-color: var(--phosphor); transform: translateY(-2px); }
-
-.article-nav-lbl {
-  font-size: 0.58rem; color: var(--text-dimmer);
-  letter-spacing: 0.15em; text-transform: uppercase;
-  display: flex; align-items: center; gap: 6px;
-}
-.article-nav-link.next .article-nav-lbl { justify-content: flex-end; }
-.article-nav-title {
-  font-family: var(--font-display);
-  font-size: 1.15rem; color: var(--text);
-}
-.article-nav-link.next { text-align: right; align-items: flex-end; }
-
-/* ── 5. MEDIA QUERIES ─────────────────────────────────────────────────── */
-
-@media (min-width: 700px) {
-  .article-nav { grid-template-columns: 1fr 1fr; }
-}
+/* ── 4. MEDIA QUERIES ─────────────────────────────────────────────────── */
 
 @media (min-width: 961px) {
   .blog-hero { padding: 150px 56px 70px; }
@@ -262,7 +227,6 @@
   }
   .article-header { padding: 150px 56px 44px; }
   .article-body { padding: 20px 56px 70px; }
-  .article-nav { padding: 0 56px 120px; }
 }
 
 @media (min-width: 1300px) {

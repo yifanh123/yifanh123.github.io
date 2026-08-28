@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>
+  (() => {
+    const stored = localStorage.getItem('theme');
+    const theme = stored || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+    document.documentElement.setAttribute('data-theme', theme);
+  })();
+</script>
+<title>Raspberry Pi Home Server — Yifan Hu</title>
+<meta name="description" content="How to set up home server using raspberry pi.">
+
+<link rel="icon" type="image/svg+xml" href="../assets/images/favicon.svg">
+
+<meta property="og:type" content="article">
+<meta property="og:title" content="Setting up QOL software on home server. Part 2.">
+<meta property="og:description" content="How to set up home server using raspberry pi.">
+
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/styles.css">
+<link rel="stylesheet" href="../assets/css/blog.css">
+</head>
+<body>
+
+<header>
+  <nav id="nav">
+    <a href="../index.html" class="nav-logo">Yifan <span>Hu</span></a>
+    <div class="nav-right">
+      <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Switch to light theme">
+        <svg class="icon-sun" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+        <svg class="icon-moon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="../index.html#about">About</a></li>
+        <li><a href="../index.html#experience">Experience</a></li>
+        <li><a href="../projects/index.html">Projects</a></li>
+        <li><a href="../index.html#education">Education</a></li>
+        <li><a href="index.html" class="active">Blog</a></li>
+        <li><a href="../index.html#contact">Contact</a></li>
+      </ul>
+      <button type="button" class="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="nav-links">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+</header>
+
+<main>
+
+  <div class="article-header">
+    <a href="index.html" class="blog-crumb">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
+      Back to Blog
+    </a>
+    <div class="article-meta">
+      <time datetime="2026-08-26">2026.08.25</time>
+      <span class="dot-sep">&middot;</span>
+      <span class="read-time">6 min read</span>
+    </div>
+    <h1 class="article-title">Setting up QOL software on home server. Part 2.</h1>
+  </div>
+  
+  <article class="article-body">
+    <p>Time to cover the vpn and password manager. I will be using wireguard for the vpn and vaultwarden for the password manager. These are both open source and free to use.</p>
+<p>The following prerequisites are assumed for this post:</p>
+<ul>
+<li>Raspberry Pi with a static LAN address</li>
+<li>PiVPN/Pi-hole assumptions from Part 1</li>
+<li>Docker and Docker Compose installed</li>
+<li>Router administration access</li>
+<li>A public IP address or DDNS hostname</li>
+<li>Basic understanding of which ports will be exposed
+If you haven&#39;t done this yet, check out my previous post on setting up a home server using raspberry pi.</li>
+</ul>
+<h1>Wireguard</h1>
+<h3>Installing WireGuard</h3>
+<p>First we will set up wireguard.</p>
+<pre><code class="language-bash">sudo apt update &amp;&amp; sudo apt upgrade -y
+curl -L https://install.pivpn.io | bash
+</code></pre>
+<p>These commands will update your system and install pivpn. From this it will open the setup wizard. Select WireGuard when prompted for the VPN protocol (rather than OpenVPN). Set the default listening port to 51820 (UDP). Select your preferred upstream DNS provider (e.g., Cloudflare 1.1.1.1 or Google 8.8.8.8). This is where you can use the pihole DNS as we set up in the previous post. Select your public IP address or Dynamic DNS entry for the connection endpoint. Confirm package updates and allow the Pi to reboot if prompted.</p>
+<h3>Adding a WireGuard Client</h3>
+<p>Once it is done, you will need to add a client.</p>
+<pre><code class="language-bash">pivpn add
+cat ~/configs/&lt;profile_name&gt;.conf
+</code></pre>
+<p>Use this configuration file to set up WireGuard on your devices (e.g., phone, laptop).
+You might need to add MTU=1420 under the [Interface] section in the config if you are having issues connecting to the VPN. This is a common issue because of fragmentation of packets.
+When you download the config file, you just need to import it into the WireGuard app on your device.</p>
+<pre><code class="language-bash">pivpn -l       # List clients
+pivpn -qr      # Display a QR code for mobile import
+pivpn -r       # Revoke a client
+</code></pre>
+<p>Be careful when sharing the config file, as it contains a private key.</p>
+<h3>Some additional debugging commands</h3>
+<pre><code class="language-bash">pivpn -d
+sudo iptables -t nat -L -v -n
+arp -a
+</code></pre>
+<p>These commands will help you debug any issues you might have with your VPN connection. The first command will run a diagnostic check on your PiVPN installation. The second command will show the current NAT table in iptables, which can help identify any issues with port forwarding. The third command will display the ARP table, which can help identify any issues with network connectivity.</p>
+<h3>Confirm that the VPN is working</h3>
+<ul>
+<li>Tunnel shows a recent handshake</li>
+<li>Client can reach the Pi</li>
+<li>Client can reach another LAN device</li>
+<li>DNS resolves through Pi-hole</li>
+<li>Internet traffic works over cellular data</li>
+</ul>
+<h1>Vaultwarden</h1>
+<h3>Installing Vaultwarden</h3>
+<p>The next step is to set up a password manager. I will be using Vaultwarden, which is a lightweight and self-hosted version of Bitwarden.</p>
+<pre><code class="language-bash">mkdir vaultwarden &amp;&amp; cd vaultwarden
+nano docker-compose.yml
+</code></pre>
+<p>Create the following docker-compose.yml file:</p>
+<pre><code class="language-yaml">services:
+  vaultwarden:
+    image: vaultwarden/server:latest
+    container_name: vaultwarden
+    restart: unless-stopped
+    environment:
+      - WEBSOCKET_ENABLED=true
+    volumes:
+      - ./vw-data:/data
+    ports:
+      - &quot;8081:80&quot;
+</code></pre>
+<p>Use port 8081 to avoid conflicts with pihole. Start the server:</p>
+<pre><code class="language-bash">docker compose up -d
+</code></pre>
+<p>This will set up the Vaultwarden server and make it accessible on your local network. You can access it by navigating to <code>http://&lt;your_pi_ip&gt;:8081</code> in your web browser. It is not secure over http since we are not using SSL. You can set up SSL using a reverse proxy like Caddy.</p>
+<h3>Setting up Caddy for SSL</h3>
+<p>To set up SSL for Vaultwarden, we will use Caddy as a reverse proxy. First, we need to install Caddy:</p>
+<pre><code class="language-bash">mkdir caddy &amp;&amp; cd caddy
+nano Caddyfile
+</code></pre>
+<p>To use Caddy, we need to create a Caddyfile with the following configuration:</p>
+<pre><code>{
+    default_sni &lt;PI-LOCAL-IP&gt;
+}
+
+&lt;PI-LOCAL-IP&gt;:8443 {
+    tls internal
+    reverse_proxy &lt;PI-LOCAL-IP&gt;:8081
+}
+</code></pre>
+<p>After, create the docker-compose.yml file for Caddy:</p>
+<pre><code class="language-bash">nano docker-compose.yml
+</code></pre>
+<p>The yml file should look like this:</p>
+<pre><code class="language-yaml">services:
+  caddy:
+    image: caddy:latest
+    container_name: caddy
+    restart: unless-stopped
+    ports:
+      - &quot;8443:8443&quot;
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+
+volumes:
+  caddy_data:
+  caddy_config:
+</code></pre>
+<p>Launch the Caddy server by running the following command:</p>
+<pre><code class="language-bash">docker compose up -d
+</code></pre>
+<h3>Certificate Warning</h3>
+<p>When you try to access Vaultwarden by navigating to <code>https://&lt;your_pi_ip&gt;:8443</code> in your web browser, you will see a warning about the SSL certificate being self-signed. This is because we are using a self-signed certificate generated by Caddy. You can add an exception in your browser to proceed to the site, or just ignore the warning and proceed.
+Tls creates a private Caddy certificate authority, so the client needs to trust the root certificate, or you can use a public certificate with a domain name. Caddy documents this <a href="https://caddyserver.com/docs/automatic-https#local-https">here</a>.</p>
+<h3>Network Diagram of the setup</h3>
+<pre><code>Remote device
+     │
+WireGuard tunnel
+     │ UDP 51820
+Raspberry Pi
+     ├── Pi-hole DNS
+     └── Caddy HTTPS → Vaultwarden
+</code></pre>
+<p>Make sure to only set up port forwarding for the WireGuard port, so the Vaultwarden server is only accessible through the VPN. This will ensure that your passwords are secure and not exposed to the internet.</p>
+<h3>Using Vaultwarden</h3>
+<p>You can now create an account and start using Vaultwarden to manage your passwords securely. You can upload previous passwords from other password managers or create new ones. Vaultwarden also supports two-factor authentication (2FA) for added security.</p>
+<h3>Accessing the passwords</h3>
+<p>The bitwarden extension on your browser or the bitwarden app on the phone can be used to access the passwords. This allows the autofill and auto-login features that other password managers have. To set this up, all you need to do is to log in to your Vaultwarden account on the extension or app. Make sure to select locally hosted server when logging in, and enter the URL of the server (e.g., <code>https://&lt;your_pi_ip&gt;:8443</code>). After logging in, you will have access to all your stored passwords and can use the autofill and auto-login features.</p>
+<p>Because we have set up a VPN, the Vaultwarden server is accessible only when connected to the VPN. This allows you to access your passwords securely from anywhere in the world, as long as you are connected to the VPN.</p>
+<h3>Confirm this works</h3>
+<ul>
+<li>HTTPS is trusted on the client</li>
+<li>The Bitwarden client can synchronize</li>
+<li>Autofill works</li>
+<li>Vaultwarden works while connected through WireGuard</li>
+<li>It is unreachable externally when WireGuard is disconnected</li>
+</ul>
+<h3>Some drawbacks of this setup</h3>
+<p>Caddy and Vaultwarden containers can be put on one docker network, but I have not done that in this setup. This means that the traffic between Caddy and Vaultwarden is not encrypted. This shouldn&#39;t be a problem since the traffic is only going through your home network, but it is something to keep in mind.</p>
+<h1>Conclusion</h1>
+<p>In this post, we have set up a VPN using WireGuard and a password manager using Vaultwarden. These tools will help you secure your home server and manage your passwords effectively. I might cover more software in the next post, such as a media server or a home automation system. Stay tuned for more updates on setting up your home server!</p>
+
+    <ul class="tags article-tags"><li class="tag">Raspberry Pi</li></ul>
+  </article>
+  
+  <div class="post-signoff">
+    <div class="signoff-rule">End of Log</div>
+    <div class="signoff-author">
+      <div class="signoff-avatar" aria-hidden="true">YH</div>
+      <div>
+        <div class="signoff-name">Yifan Hu</div>
+        <div class="signoff-meta">
+          Electrical Engineering @ UCLA
+          <span class="dot-sep">&middot;</span>
+          Published <time datetime="2026-08-26">2026.08.25</time>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <span class="footer-t">&copy; 2026 Yifan Hu &mdash; Electrical Engineering @ UCLA</span>
+  <span class="footer-t">Built with precision.</span>
+</footer>
+
+<script src="../assets/js/script.js" defer></script>
+<script src="../assets/js/code-blocks.js" defer></script>
+</body>
+</html>

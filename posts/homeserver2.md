@@ -1,8 +1,166 @@
 ---
 title: Setting up QOL software on home server. Part 2.
 tabTitle: Raspberry Pi Home Server
-date: 2026-08-4
+date: 2026-08-26
 summary: Setting up a home server using raspberry pi.
 metaDescription: How to set up home server using raspberry pi.
 tags: [Raspberry Pi]
 ---
+
+Time to cover the vpn and password manager. I will be using wireguard for the vpn and vaultwarden for the password manager. These are both open source and free to use.
+
+The following prerequisites are assumed for this post:
+- Raspberry Pi with a static LAN address
+- PiVPN/Pi-hole assumptions from Part 1
+- Docker and Docker Compose installed
+- Router administration access
+- A public IP address or DDNS hostname
+- Basic understanding of which ports will be exposed
+If you haven't done this yet, check out my previous post on setting up a home server using raspberry pi.
+
+# Wireguard
+### Installing WireGuard
+First we will set up wireguard.
+```bash
+sudo apt update && sudo apt upgrade -y
+curl -L https://install.pivpn.io | bash
+```
+These commands will update your system and install pivpn. From this it will open the setup wizard. Select WireGuard when prompted for the VPN protocol (rather than OpenVPN). Set the default listening port to 51820 (UDP). Select your preferred upstream DNS provider (e.g., Cloudflare 1.1.1.1 or Google 8.8.8.8). This is where you can use the pihole DNS as we set up in the previous post. Select your public IP address or Dynamic DNS entry for the connection endpoint. Confirm package updates and allow the Pi to reboot if prompted.
+
+### Adding a WireGuard Client
+Once it is done, you will need to add a client.
+```bash
+pivpn add
+cat ~/configs/<profile_name>.conf
+```
+Use this configuration file to set up WireGuard on your devices (e.g., phone, laptop).
+You might need to add MTU=1420 under the [Interface] section in the config if you are having issues connecting to the VPN. This is a common issue because of fragmentation of packets.
+When you download the config file, you just need to import it into the WireGuard app on your device.
+```bash
+pivpn -l       # List clients
+pivpn -qr      # Display a QR code for mobile import
+pivpn -r       # Revoke a client
+```
+Be careful when sharing the config file, as it contains a private key.
+
+### Some additional debugging commands
+```bash
+pivpn -d
+sudo iptables -t nat -L -v -n
+arp -a
+```
+These commands will help you debug any issues you might have with your VPN connection. The first command will run a diagnostic check on your PiVPN installation. The second command will show the current NAT table in iptables, which can help identify any issues with port forwarding. The third command will display the ARP table, which can help identify any issues with network connectivity.
+
+### Confirm that the VPN is working
+- Tunnel shows a recent handshake
+- Client can reach the Pi
+- Client can reach another LAN device
+- DNS resolves through Pi-hole
+- Internet traffic works over cellular data
+
+# Vaultwarden
+### Installing Vaultwarden
+The next step is to set up a password manager. I will be using Vaultwarden, which is a lightweight and self-hosted version of Bitwarden.
+```bash
+mkdir vaultwarden && cd vaultwarden
+nano docker-compose.yml
+```
+Create the following docker-compose.yml file:
+```yaml
+services:
+  vaultwarden:
+    image: vaultwarden/server:latest
+    container_name: vaultwarden
+    restart: unless-stopped
+    environment:
+      - WEBSOCKET_ENABLED=true
+    volumes:
+      - ./vw-data:/data
+    ports:
+      - "8081:80"
+```
+Use port 8081 to avoid conflicts with pihole. Start the server:
+```bash
+docker compose up -d
+```
+This will set up the Vaultwarden server and make it accessible on your local network. You can access it by navigating to `http://<your_pi_ip>:8081` in your web browser. It is not secure over http since we are not using SSL. You can set up SSL using a reverse proxy like Caddy.
+
+### Setting up Caddy for SSL
+To set up SSL for Vaultwarden, we will use Caddy as a reverse proxy. First, we need to install Caddy:
+```bash
+mkdir caddy && cd caddy
+nano Caddyfile
+```
+To use Caddy, we need to create a Caddyfile with the following configuration:
+```
+{
+    default_sni <PI-LOCAL-IP>
+}
+
+<PI-LOCAL-IP>:8443 {
+    tls internal
+    reverse_proxy <PI-LOCAL-IP>:8081
+}
+```
+After, create the docker-compose.yml file for Caddy:
+```bash
+nano docker-compose.yml
+```
+The yml file should look like this:
+```yaml
+services:
+  caddy:
+    image: caddy:latest
+    container_name: caddy
+    restart: unless-stopped
+    ports:
+      - "8443:8443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+
+volumes:
+  caddy_data:
+  caddy_config:
+```
+Launch the Caddy server by running the following command:
+```bash
+docker compose up -d
+```
+### Certificate Warning
+When you try to access Vaultwarden by navigating to `https://<your_pi_ip>:8443` in your web browser, you will see a warning about the SSL certificate being self-signed. This is because we are using a self-signed certificate generated by Caddy. You can add an exception in your browser to proceed to the site, or just ignore the warning and proceed.
+Tls creates a private Caddy certificate authority, so the client needs to trust the root certificate, or you can use a public certificate with a domain name. Caddy documents this [here](https://caddyserver.com/docs/automatic-https#local-https).
+
+### Network Diagram of the setup
+```
+Remote device
+     │
+WireGuard tunnel
+     │ UDP 51820
+Raspberry Pi
+     ├── Pi-hole DNS
+     └── Caddy HTTPS → Vaultwarden
+```
+Make sure to only set up port forwarding for the WireGuard port, so the Vaultwarden server is only accessible through the VPN. This will ensure that your passwords are secure and not exposed to the internet.
+
+### Using Vaultwarden
+You can now create an account and start using Vaultwarden to manage your passwords securely. You can upload previous passwords from other password managers or create new ones. Vaultwarden also supports two-factor authentication (2FA) for added security.
+
+### Accessing the passwords
+The bitwarden extension on your browser or the bitwarden app on the phone can be used to access the passwords. This allows the autofill and auto-login features that other password managers have. To set this up, all you need to do is to log in to your Vaultwarden account on the extension or app. Make sure to select locally hosted server when logging in, and enter the URL of the server (e.g., `https://<your_pi_ip>:8443`). After logging in, you will have access to all your stored passwords and can use the autofill and auto-login features.
+
+Because we have set up a VPN, the Vaultwarden server is accessible only when connected to the VPN. This allows you to access your passwords securely from anywhere in the world, as long as you are connected to the VPN.
+
+### Confirm this works
+- HTTPS is trusted on the client
+- The Bitwarden client can synchronize
+- Autofill works
+- Vaultwarden works while connected through WireGuard
+- It is unreachable externally when WireGuard is disconnected
+
+### Some drawbacks of this setup
+Caddy and Vaultwarden containers can be put on one docker network, but I have not done that in this setup. This means that the traffic between Caddy and Vaultwarden is not encrypted. This shouldn't be a problem since the traffic is only going through your home network, but it is something to keep in mind.
+
+# Conclusion
+In this post, we have set up a VPN using WireGuard and a password manager using Vaultwarden. These tools will help you secure your home server and manage your passwords effectively. I might cover more software in the next post, such as a media server or a home automation system. Stay tuned for more updates on setting up your home server!

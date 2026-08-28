@@ -23,7 +23,11 @@
 <meta property="og:type" content="website">
 <meta property="og:title" content="Yifan Hu — Electrical Engineering @ UCLA">
 <meta property="og:description" content="Hardware, embedded systems, and signal processing projects by Yifan Hu, EE student at UCLA.">
-<meta property="og:image" content="assets/images/og-cover.jpg">
+<meta property="og:image" content="https://yifanh.com/assets/images/og-cover.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Yifan Hu — Electrical Engineering @ UCLA">
+<meta name="twitter:description" content="Hardware, embedded systems, and signal processing projects by Yifan Hu, EE student at UCLA.">
+<meta name="twitter:image" content="https://yifanh.com/assets/images/og-cover.png">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -44,19 +48,12 @@
       </button>
 
       <ul class="nav-links" id="nav-links">
-        <!-- Portfolio with Dropdown -->
-        <li class="nav-dropdown">
-          <a href="#hero" class="nav-dropbtn">Portfolio</a>
-          <div class="nav-dropdown-content">
-            <a href="#about">About</a>
-            <a href="#experience">Experience</a>
-            <a href="#projects">Projects</a>
-            <a href="#education">Education</a>
-            <a href="#contact">Contact</a>
-          </div>
-        </li>
-        
+        <li><a href="#about">About</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="projects/index.html">Projects</a></li>
+        <li><a href="#education">Education</a></li>
         <li><a href="blog/index.html">Blog</a></li>
+        <li><a href="#contact">Contact</a></li>
       </ul>
 
       <button type="button" class="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="nav-links">
@@ -123,8 +120,8 @@
             clean engineering meets real-world constraints.
           </p>
           <p>
-            Currently interested in <strong>Hall Effect &amp; TMR keyboards</strong>,
-            <strong>magnetic mice architecture</strong>, and Apple's next-generation hardware direction.
+            Currently interested in <strong>Rovers and Autonomous Vehicles</strong>,
+            <strong>home server setup</strong>, and Nvidia's latest GPU developments.
             Always building something.
           </p>
 
@@ -189,247 +186,53 @@
     </div>
   </section>
 
-  <!-- PROJECTS -->
+  <!-- FEATURED PROJECTS -->
   <section id="projects">
     <div class="container">
-      <div class="reveal tl-header">
+      <div class="reveal featured-header">
         <div>
           <div class="sec-label">03 &mdash; Work</div>
-          <h2 class="sec-title">Project <em>Timeline</em></h2>
+          <h2 class="sec-title">Selected <em>Projects</em></h2>
         </div>
-        <button type="button" class="tl-expand-all" id="tl-expand-all">Expand All</button>
+        <p class="featured-intro">A few systems I have designed, built, and tested across embedded hardware, autonomous flight, and high-speed data acquisition.</p>
       </div>
 
-      <ol class="timeline">
-
-        <!-- Custom Keyboard — Spring 2026 -->
-        <li class="tl-item reveal">
-          <div class="tl-date">Spring<br>2026</div>
-          <div class="tl-dot" aria-hidden="true"></div>
-          <div class="tl-content">
-            <button type="button" class="tl-toggle" aria-expanded="false" aria-controls="panel-keyboard">
-              <h3 class="tl-title">Hall Effect / Mechanical Keyboard</h3>
-              <svg class="tl-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
-            </button>
-            <ul class="tl-tags">
-              <li class="tl-tag">PCB Design</li>
-              <li class="tl-tag">Embedded Systems</li>
-              <li class="tl-tag">STM32 Blackpill</li>
-            </ul>
-            <div class="tl-panel" id="panel-keyboard">
-              <div class="tl-panel-inner">
-                <p class="tl-desc">
-                  Part hall effect part mechanical keyboard designed with a custom PCB and firmware.
-                  Features include per-key RGB lighting, hot-swappable switches, and 75% layout.
-                </p>
-                <div class="tl-gallery proj-gallery">
-                  <div class="gallery-main">
-                    <img src="assets/images/k1.png" alt="Custom keyboard design" loading="lazy" decoding="async">
-                  </div>
-                  <div class="gallery-thumbs">
-                    <button type="button" class="g-thumb active" data-src="assets/images/k1.png" data-type="img" aria-label="Show keyboard photo 1"><img src="assets/images/k1.png" alt="" loading="lazy" decoding="async"></button>
-                    <button type="button" class="g-thumb" data-src="assets/images/k2.png" data-type="img" aria-label="Show keyboard photo 2"><img src="assets/images/k2.png" alt="" loading="lazy" decoding="async"></button>
-                    <button type="button" class="g-thumb" data-src="assets/images/k3.png" data-type="img" aria-label="Show keyboard photo 3"><img src="assets/images/k3.png" alt="" loading="lazy" decoding="async"></button>
-                    <button type="button" class="g-thumb" data-src="assets/images/k4.jpg" data-type="img" aria-label="Show keyboard photo 4"><img src="assets/images/k4.jpg" alt="" loading="lazy" decoding="async"></button>
-                  </div>
-                </div>
-              </div>
-            </div>
+      <div class="featured-grid">
+        <a class="featured-card reveal" href="projects/index.html#keyboard">
+          <div class="featured-media"><img src="assets/images/k1.png" alt="Custom Hall Effect and mechanical keyboard PCB design" loading="lazy" decoding="async"></div>
+          <div class="featured-body">
+            <div class="featured-meta"><span>Spring 2026</span><span>Embedded hardware</span></div>
+            <h3>Hall Effect / Mechanical Keyboard</h3>
+            <p>Designed a custom 75% keyboard combining Hall Effect sensing, mechanical switches, per-key RGB, and embedded firmware.</p>
+            <span class="featured-link">View project <span aria-hidden="true">&rarr;</span></span>
           </div>
-        </li>
+        </a>
 
-        <!-- RF Wireless Transmission — Spring 2026 -->
-        <li class="tl-item reveal">
-          <div class="tl-date">Spring<br>2026</div>
-          <div class="tl-dot" aria-hidden="true"></div>
-          <div class="tl-content">
-            <button type="button" class="tl-toggle" aria-expanded="false" aria-controls="panel-rf">
-              <h3 class="tl-title">RF Wireless Transmission</h3>
-              <svg class="tl-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
-            </button>
-            <ul class="tl-tags">
-              <li class="tl-tag">RF Design</li>
-              <li class="tl-tag">MATLAB</li>
-              <li class="tl-tag">Digital Comms</li>
-              <li class="tl-tag">Signal Integrity</li>
-            </ul>
-            <div class="tl-panel" id="panel-rf">
-              <div class="tl-panel-inner">
-                <p class="tl-desc">
-                  Custom 27 MHz digital communication system designed from scratch using MATLAB and RF hardware
-                  blocks. Focused on signal integrity, modulation scheme design, and over-the-air data reliability
-                  at range.
-                </p>
-              </div>
-            </div>
+        <a class="featured-card reveal" href="projects/index.html#drone">
+          <div class="featured-media"><img src="assets/images/d1.jpg" alt="Autonomous quadcopter on a field before a test flight" loading="lazy" decoding="async"></div>
+          <div class="featured-body">
+            <div class="featured-meta"><span>Fall 2025</span><span>Autonomous systems</span></div>
+            <h3>Drone Development</h3>
+            <p>Built an autonomous carbon-fiber quadcopter from the ground up, including the electronics stack, PX4 setup, and PID tuning.</p>
+            <span class="featured-link">View project <span aria-hidden="true">&rarr;</span></span>
           </div>
-        </li>
+        </a>
 
-        <!-- RC Model Planes — Spring 2026 -->
-        <li class="tl-item reveal">
-          <div class="tl-date">Spring<br>2026</div>
-          <div class="tl-dot" aria-hidden="true"></div>
-          <div class="tl-content">
-            <button type="button" class="tl-toggle" aria-expanded="false" aria-controls="panel-rc">
-              <h3 class="tl-title">RC Model Planes</h3>
-              <svg class="tl-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
-            </button>
-            <ul class="tl-tags">
-              <li class="tl-tag">Aerodynamics</li>
-              <li class="tl-tag">ESC Tuning</li>
-              <li class="tl-tag">RC Systems</li>
-              <li class="tl-tag">Fabrication</li>
-            </ul>
-            <div class="tl-panel" id="panel-rc">
-              <div class="tl-panel-inner">
-                <p class="tl-desc">
-                  Designed and built a series of RC fixed-wing aircraft, focusing on aerodynamic stability,
-                  lightweight frame construction, and custom ESC/motor configurations. Iterated through multiple
-                  airframe designs and tested flight characteristics at various speeds and load conditions.
-                </p>
-                <div class="tl-gallery proj-gallery">
-                  <div class="gallery-main">
-                    <img src="assets/images/pl1.jpg" alt="Plane" loading="lazy" decoding="async">
-                  </div>
-                  <div class="gallery-thumbs">
-                    <button type="button" class="g-thumb active" data-src="assets/images/pl1.jpg" data-type="img" aria-label="Show plane photo 1"><img src="assets/images/pl1.jpg" alt="" loading="lazy" decoding="async"></button>
-                    <button type="button" class="g-thumb" data-src="assets/images/pl2.jpg" data-type="img" aria-label="Show plane photo 2"><img src="assets/images/pl2.jpg" alt="" loading="lazy" decoding="async"></button>
-                    <button type="button" class="g-thumb" data-src="assets/images/pl3.jpg" data-type="img" aria-label="Show plane photo 3"><img src="assets/images/pl3.jpg" alt="" loading="lazy" decoding="async"></button>
-                    <button type="button" class="g-thumb" data-src="assets/images/pl4.jpg" data-type="img" aria-label="Show plane photo 4"><img src="assets/images/pl4.jpg" alt="" loading="lazy" decoding="async"></button>
-                    <button type="button" class="g-thumb" data-src="assets/images/plv1.MOV" data-type="video" aria-label="Play plane flight video">
-                      <img src="assets/images/plvc1.png" alt="" loading="lazy" decoding="async">
-                      <span class="g-play" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="5 3 19 12 5 21 5 3"/></svg></span>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
+        <a class="featured-card reveal" href="projects/index.html#rocket-telemetry">
+          <div class="featured-media"><img src="assets/images/r1.jpg" alt="High-speed rocket telemetry acquisition board under test" loading="lazy" decoding="async"></div>
+          <div class="featured-body">
+            <div class="featured-meta"><span>Fall 2025</span><span>Data acquisition</span></div>
+            <h3>Rocket Telemetry</h3>
+            <p>Developed a high-speed sensor acquisition and transmission pipeline with real-time buffering and custom embedded firmware.</p>
+            <span class="featured-link">View project <span aria-hidden="true">&rarr;</span></span>
           </div>
-        </li>
+        </a>
+      </div>
 
-        <!-- Drone Development — Fall 2025 -->
-        <li class="tl-item reveal">
-          <div class="tl-date">Fall<br>2025</div>
-          <div class="tl-dot" aria-hidden="true"></div>
-          <div class="tl-content">
-            <button type="button" class="tl-toggle" aria-expanded="false" aria-controls="panel-drone">
-              <h3 class="tl-title">Drone Development</h3>
-              <svg class="tl-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
-            </button>
-            <ul class="tl-tags">
-              <li class="tl-tag">PX4</li>
-              <li class="tl-tag">Carbon Fiber</li>
-              <li class="tl-tag">PID Tuning</li>
-              <li class="tl-tag">Autonomous</li>
-              <li class="tl-tag">C++ Firmware</li>
-            </ul>
-            <div class="tl-panel" id="panel-drone">
-              <div class="tl-panel-inner">
-                <p class="tl-desc">
-                  Autonomous quadcopter built from the ground up — carbon-fiber airframe, custom electronics stack,
-                  and PX4 flight controller with full PID tuning. Sensor calibration via QGroundControl.
-                  Built and tested in the UCLA makerspace.
-                </p>
-                <div class="tl-gallery proj-gallery">
-                  <div class="gallery-main">
-                    <img src="assets/images/d1.jpg" alt="Autonomous quadcopter built for the From Scratch to Sky project, resting on a field before an FPV test flight" loading="lazy" decoding="async">
-                  </div>
-                  <div class="gallery-thumbs">
-                    <button type="button" class="g-thumb active" data-src="assets/images/d1.jpg" data-type="img" aria-label="Show quadcopter photo 1"><img src="assets/images/d1.jpg" alt="" loading="lazy" decoding="async"></button>
-                    <button type="button" class="g-thumb" data-src="assets/images/d2.jpg" data-type="img" aria-label="Show quadcopter photo 2"><img src="assets/images/d2.jpg" alt="" loading="lazy" decoding="async"></button>
-                    <button type="button" class="g-thumb" data-src="assets/images/d3.png" data-type="img" aria-label="Show quadcopter photo 3"><img src="assets/images/d3.png" alt="" loading="lazy" decoding="async"></button>
-                    <button type="button" class="g-thumb" data-src="assets/images/d4.jpg" data-type="img" aria-label="Show quadcopter photo 4"><img src="assets/images/d4.jpg" alt="" loading="lazy" decoding="async"></button>
-                    <button type="button" class="g-thumb" data-src="assets/images/dv1.mov" data-type="video" aria-label="Play quadcopter flight video">
-                      <img src="assets/images/dvc1.png" alt="" loading="lazy" decoding="async">
-                      <span class="g-play" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="5 3 19 12 5 21 5 3"/></svg></span>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </li>
-
-        <!-- Rocket Telemetry — Fall 2025 -->
-        <li class="tl-item reveal">
-          <div class="tl-date">Fall<br>2025</div>
-          <div class="tl-dot" aria-hidden="true"></div>
-          <div class="tl-content">
-            <button type="button" class="tl-toggle" aria-expanded="false" aria-controls="panel-daq">
-              <h3 class="tl-title">Rocket Telemetry</h3>
-              <svg class="tl-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
-            </button>
-            <ul class="tl-tags">
-              <li class="tl-tag">Data Acquisition</li>
-              <li class="tl-tag">Firmware</li>
-              <li class="tl-tag">Real-time</li>
-              <li class="tl-tag">Embedded C++</li>
-            </ul>
-            <div class="tl-panel" id="panel-daq">
-              <div class="tl-panel-inner">
-                <p class="tl-desc">
-                  High-speed data acquisition system designed to capture and process sensor streams at extreme
-                  sample rates. Implemented real-time signal buffering and transmission pipeline using custom
-                  embedded firmware on a microcontroller platform.
-                </p>
-                <div class="tl-gallery proj-gallery">
-                  <div class="gallery-main">
-                    <img src="assets/images/r1.jpg" alt="Data at Mach Speed high-speed acquisition board under test" loading="lazy" decoding="async">
-                  </div>
-                  <div class="gallery-thumbs">
-                    <button type="button" class="g-thumb active" data-src="assets/images/r1.jpg" data-type="img" aria-label="Show rocket photo 1"><img src="assets/images/r1.jpg" alt="" loading="lazy" decoding="async"></button>
-                    <button type="button" class="g-thumb" data-src="assets/images/r2.jpg" data-type="img" aria-label="Show rocket photo 2"><img src="assets/images/r2.jpg" alt="" loading="lazy" decoding="async"></button>
-                    <button type="button" class="g-thumb" data-src="assets/images/r3.jpg" data-type="img" aria-label="Show rocket photo 3"><img src="assets/images/r3.jpg" alt="" loading="lazy" decoding="async"></button>
-                    <button type="button" class="g-thumb" data-src="assets/images/rv1.mov" data-type="video" aria-label="Play rocket demo video">
-                      <img src="assets/images/rvc1.png" alt="" loading="lazy" decoding="async">
-                      <span class="g-play" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="5 3 19 12 5 21 5 3"/></svg></span>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </li>
-
-        <!-- Multi-Band Audio Equalizer — Summer 2024 -->
-        <li class="tl-item reveal">
-          <div class="tl-date">Summer<br>2024</div>
-          <div class="tl-dot" aria-hidden="true"></div>
-          <div class="tl-content">
-            <button type="button" class="tl-toggle" aria-expanded="false" aria-controls="panel-eq">
-              <h3 class="tl-title">Multi-Band Audio Equalizer</h3>
-              <svg class="tl-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
-            </button>
-            <ul class="tl-tags">
-              <li class="tl-tag">Active Filters</li>
-              <li class="tl-tag">PCB Design</li>
-              <li class="tl-tag">Op-Amps</li>
-              <li class="tl-tag">3D Printing</li>
-              <li class="tl-tag">Soldering</li>
-            </ul>
-            <div class="tl-panel" id="panel-eq">
-              <div class="tl-panel-inner">
-                <p class="tl-desc">
-                  Multi-band analog equalizer with active op-amp filter stages for bass, mid, and treble control.
-                  Hand-etched custom PCB, potentiometer-driven frequency adjustment, and a 3D-printed enclosure.
-                  Built from breadboard prototype to finished product.
-                </p>
-                <div class="tl-gallery proj-gallery">
-                  <div class="gallery-main">
-                    <img src="assets/images/eq.jpg" alt="Hand-etched multi-band audio equalizer PCB with potentiometer controls" loading="lazy" decoding="async">
-                  </div>
-                  <div class="gallery-thumbs">
-                    <button type="button" class="g-thumb active" data-src="assets/images/eq.jpg" data-type="img" aria-label="Show equalizer photo 1"><img src="assets/images/eq.jpg" alt="" loading="lazy" decoding="async"></button>
-                    <button type="button" class="g-thumb" data-src="assets/images/eq1.jpg" data-type="img" aria-label="Show equalizer photo 2"><img src="assets/images/eq1.jpg" alt="" loading="lazy" decoding="async"></button>
-                    <button type="button" class="g-thumb" data-src="assets/images/eq2.jpg" data-type="img" aria-label="Show equalizer photo 3"><img src="assets/images/eq2.jpg" alt="" loading="lazy" decoding="async"></button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </li>
-
-      </ol>
+      <div class="projects-cta reveal">
+        <p>Six builds and counting, from analog circuits to autonomous aircraft.</p>
+        <a href="projects/index.html" class="btn-s">Browse the project archive <span aria-hidden="true">&rarr;</span></a>
+      </div>
     </div>
   </section>
 

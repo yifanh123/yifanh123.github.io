@@ -59,7 +59,7 @@ The most reliable way to find this is just to connect a keyboard and monitor to 
 ```ip a```
 To get the correct IP address, you are looking for either eth or wlan, make sure not to grab the 127.0.0.1. This is the local IP and does not connect anyway. Big change it starts with 192.168.x.x, because those two numbers is the header of all home networks.
 Once you know the IP address, we can connect to the pi with ssh, so we don't need to have the keyboard and monitor connected to the pi to work on it. Open command prompt or terminal and run:
-```
+```bash
 ssh pi@192.168.x.x
 ```
 It will prompt you for username and password, this is what you set up in the Raspberry Pi Imager.
@@ -67,7 +67,7 @@ It will prompt you for username and password, this is what you set up in the Ras
 ### Update and Static IP
 
 The first thing to do is to update the pi, run:
-```
+```bash
 sudo apt update && sudo apt upgrade -y
 ```
 It might prompt you to put in the password.
@@ -77,11 +77,11 @@ We want the IP address of the pi to never change, due to system requirements fro
 Option 1, set a DHCP reservation on the router app or website you used previously.
 
 Option 2, set this up directly on the raspberry pi. To make sure the router doesn't accidently reassign this IP to another device, check the IP range of the router with Fing or the router app and select a IP that is not in the IP range provided (the entire range is 192.168.x.1-255 and most routers do not assign 255 devices). Then, by running
-```
+```bash
 sudo nano -w /etc/dhcpcd.conf
 ```
 you can edit the config file and uncomment out the static IP configuration line. Put the static IP address you want for the pi, and add the gateway (this will be the router's IP address and is usually the IP address ending with .1) and DNS servers (point this to the router and use 1.1.1.1).
-```
+```conf
 # Example static IP configuration:
 interface eth0
 static ip_address=192.168.x.x/24
@@ -95,7 +95,7 @@ I left the ip6 out because it is not necessary. Hit ctrl+x to exit and save. To 
 ## Installing pi-hole
 
 SSH back into to the pi, remember to use the new static IP that was just assigned, then run:
-```
+```bash
 curl -sSL https://install.pi-hole.net | bash
 ```
 Once it gets installed it will start up a setup wizard, follow all of the steps on the wizard to finish the install. Past the first couple pages, the wizard will give a warning about setting up a static IP address but you can hit continue because we have already set this up. Double check that the static IP that the pi reads is correct and set it to the custom static IP. It will give three pages on this, setting the static IP is very important, so make sure to take your time to set it up correctly.
@@ -115,7 +115,7 @@ We are now set up. The pi-hole will start running its scripts and soon give an i
 ### Using the pi dashboard.
 
 First run
-```
+```bash
 pihole -a -p
 ```
 to change the password to what you want it to be and now we can log in to the pi dashboard. Navigate to a web browser and go to the local IP address of the pi. http://192.168.x.x/admin. Enter the password that was previously set. Explore around, there will be a lot of setting that can be customized. The main sidebar options to focus on are Domain and Adlist.
@@ -128,15 +128,15 @@ Sometimes, adding too many lists will cause something extra to get accidently bl
 
 Do we trust cloudflare with out data? Obviously not, their security system is based off of lava lamps. Of course it does work, but we are so far along why not do our own DNS. We want to install unbound so big tech can't see what we searched up on their DNS servers. (only on their web browsers)
 ssh into the pi and run:
-```
+```bash
 sudo apt install unbound -y
 ```
 Write a configuration file using:
-```
+```bash
 sudo nano -w /etc/unbound/unbound.conf.d/pi-hole.conf
 ```
 Copy ll of this text into the config file, trust there is no malware, source ([https://docs.pi-hole.net/guides/dns/unbound/](https://docs.pi-hole.net/guides/dns/unbound/).)
-```
+```conf
 server:
 # If no logfile is specified, syslog is used
 # logfile: "/var/log/unbound/unbound.log"
@@ -206,12 +206,12 @@ private-address: fe80::/10
 ```
 
 Then restart the service so the config document works as intended.
-```
+```bash
 sudo service unbound restart
 ```
 
 And status update. Look for ```active (running)``` and its all set
-```
+```bash
 sudo service unbound status
 ```
 
@@ -220,7 +220,7 @@ sudo service unbound status
 Log onto the admin web interface (hopefully the password isn't forgetten yet) and go to Settings -> DNS. Uncheck all the boxes and add a custom IPv4 entry for unbound ```127.0.0.1#5335```. This number is set up in config file.
 
 That is all for ad block and DNS. Test it with this website: [https://canyoublockit.com/](https://canyoublockit.com/). Also make sure to update it once in a while.
-```
+```bash
 sudo pihole -up
 ```
 We have set up pi hole and unbound. The next post will (hopefully) cover the rest of the list.

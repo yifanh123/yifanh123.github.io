@@ -42,7 +42,7 @@
     // just look like an inverted dark mode.
     const palettes = {
       dark: {
-        clear:     'rgba(0,0,0,0.09)',
+        clear:     'rgba(11,12,14,0.09)',
         grid:      'rgba(247,147,76,0.045)',
         glowWide:  'rgba(247,147,76,0.035)',
         glowMid:   'rgba(247,147,76,0.07)',
@@ -50,7 +50,7 @@
         trace2:    'rgba(204,88,3,0.28)',
       },
       light: {
-        clear:     'rgba(246,241,231,0.16)',
+        clear:     'rgba(250,250,248,0.16)',
         grid:      'rgba(193,87,31,0.07)',
         glowWide:  'rgba(193,87,31,0.05)',
         glowMid:   'rgba(193,87,31,0.09)',

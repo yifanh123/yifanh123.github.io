@@ -198,17 +198,12 @@ ${ogImageTag}
         <svg class="icon-moon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
       </button>
       <ul class="nav-links" id="nav-links">
-        <li class="nav-dropdown">
-          <a href="../index.html#hero" class="nav-dropbtn">Portfolio</a>
-          <div class="nav-dropdown-content">
-            <a href="../index.html#about">About</a>
-            <a href="../index.html#experience">Experience</a>
-            <a href="../index.html#projects">Projects</a>
-            <a href="../index.html#education">Education</a>
-            <a href="../index.html#contact">Contact</a>
-          </div>
-        </li>
+        <li><a href="../index.html#about">About</a></li>
+        <li><a href="../index.html#experience">Experience</a></li>
+        <li><a href="../projects/index.html">Projects</a></li>
+        <li><a href="../index.html#education">Education</a></li>
         <li><a href="index.html" class="active">Blog</a></li>
+        <li><a href="../index.html#contact">Contact</a></li>
       </ul>
       <button type="button" class="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="nav-links">
         <span></span><span></span><span></span>
@@ -240,8 +235,8 @@ function renderIndexCard(post) {
   const tags = post.tags.map((t) => `<li class="tl-tag">${escapeHTML(t)}</li>`).join('');
 
   return `
-    <a class="post-card" href="${post.url}">
-      ${media}
+    <a class="post-card" href="${post.url}">${media ? `
+      ${media}` : ''}
       <div class="post-card-body">
         <div class="post-card-meta">
           <time datetime="${post.dateISO}">${post.dateDisplay}</time>
@@ -315,25 +310,12 @@ function renderSignoff(post) {
   </div>`;
 }
 
-function renderPostPage(post, prev, next) {
+function renderPostPage(post) {
   const cover = post.cover
     ? `<div class="article-cover"><img src="${resolveImgPath(post.cover)}" alt="" loading="eager" decoding="async"></div>`
     : '';
   const tags = post.tags.length
     ? `<ul class="tags article-tags">${post.tags.map((t) => `<li class="tag">${escapeHTML(t)}</li>`).join('')}</ul>`
-    : '';
-
-  const navLinks = (prev || next)
-    ? `<nav class="article-nav" aria-label="More posts">
-        ${prev ? `<a class="article-nav-link prev" href="${prev.url}">
-          <span class="article-nav-lbl">&larr; Previous</span>
-          <span class="article-nav-title">${escapeHTML(prev.title)}</span>
-        </a>` : ''}
-        ${next ? `<a class="article-nav-link next" href="${next.url}">
-          <span class="article-nav-lbl">Next &rarr;</span>
-          <span class="article-nav-title">${escapeHTML(next.title)}</span>
-        </a>` : ''}
-      </nav>`
     : '';
 
   const signoff = renderSignoff(post);
@@ -356,8 +338,7 @@ function renderPostPage(post, prev, next) {
     ${post.html}
     ${tags}
   </article>
-  ${signoff}
-  ${navLinks}`;
+  ${signoff}`;
 
   return renderShell({
     title: post.title,
@@ -415,10 +396,8 @@ async function buildSite() {
   // Newest first
   posts.sort((a, b) => b.date - a.date);
 
-  posts.forEach((post, i) => {
-    const prev = posts[i + 1] || null; // older post
-    const next = posts[i - 1] || null; // newer post
-    fs.writeFileSync(path.join(OUTPUT_DIR, post.url), renderPostPage(post, prev, next));
+  posts.forEach((post) => {
+    fs.writeFileSync(path.join(OUTPUT_DIR, post.url), renderPostPage(post));
   });
 
   fs.writeFileSync(path.join(OUTPUT_DIR, 'index.html'), renderIndexPage(posts));
