@@ -402,6 +402,7 @@ async function buildSite() {
     return {
       slug,
       legacySlug,
+      content,
       url: `${slug}.html`,
       title: data.title || 'Untitled Post',
       tabTitle: data.tabTitle || data.title || 'Untitled Post',
@@ -426,6 +427,7 @@ async function buildSite() {
   posts.forEach((post) => {
     post.related = posts.filter(p => p !== post).slice(0, 3);
     fs.writeFileSync(path.join(OUTPUT_DIR, post.url), seo.enhance(renderPostPage(post), '/blog/' + post.url, post));
+    fs.writeFileSync(path.join(OUTPUT_DIR, post.slug + '.md'), `# ${post.title}\n\nBy ${AUTHOR_NAME} · ${post.dateISO}\n\nCanonical page: https://yifanh.com/blog/${post.url}\n\n${post.content.trim()}\n`);
     if (post.slug !== post.legacySlug) fs.writeFileSync(path.join(OUTPUT_DIR, post.legacySlug + '.html'), seo.redirect(post.url));
   });
 

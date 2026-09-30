@@ -24,6 +24,8 @@
 <link rel="stylesheet" href="../assets/css/blog.css">
 <!-- SEO:start -->
 <link rel="canonical" href="https://yifanh.com/blog/">
+<link rel="describedby" href="/llms.txt" type="text/plain">
+
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://yifanh.com/blog/">
 <meta property="og:site_name" content="Yifan Hu">
@@ -35,7 +37,7 @@
 <meta name="twitter:title" content="Engineering Blog &amp; Project Updates — Yifan Hu">
 <meta name="twitter:description" content="Build notes by Yifan Hu on Raspberry Pi home servers, embedded electronics, RC vehicles, and hands-on engineering projects at UCLA.">
 <meta name="twitter:image" content="https://yifanh.com/assets/images/og-cover.png">
-<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Person","@id":"https://yifanh.com/#person","name":"Yifan Hu","url":"https://yifanh.com/","sameAs":["https://github.com/yifanh123","https://www.linkedin.com/in/yifanh11"]},{"@type":"WebSite","@id":"https://yifanh.com/#website","url":"https://yifanh.com/","name":"Yifan Hu","author":{"@id":"https://yifanh.com/#person"}},{"@type":"CollectionPage","@id":"https://yifanh.com/blog/#page","url":"https://yifanh.com/blog/","name":"Engineering Blog & Project Updates — Yifan Hu","description":"Build notes by Yifan Hu on Raspberry Pi home servers, embedded electronics, RC vehicles, and hands-on engineering projects at UCLA.","image":"https://yifanh.com/assets/images/og-cover.png","isPartOf":{"@id":"https://yifanh.com/#website"}}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Person","@id":"https://yifanh.com/#person","name":"Yifan Hu","url":"https://yifanh.com/","sameAs":["https://github.com/yifanh123","https://www.linkedin.com/in/yifanh11"]},{"@type":"WebSite","@id":"https://yifanh.com/#website","url":"https://yifanh.com/","name":"Yifan Hu","author":{"@id":"https://yifanh.com/#person"}},{"@type":"CollectionPage","@id":"https://yifanh.com/blog/#page","url":"https://yifanh.com/blog/","name":"Engineering Blog & Project Updates — Yifan Hu","description":"Build notes by Yifan Hu on Raspberry Pi home servers, embedded electronics, RC vehicles, and hands-on engineering projects at UCLA.","image":"https://yifanh.com/assets/images/og-cover.png","isPartOf":{"@id":"https://yifanh.com/#website"},"breadcrumb":{"@id":"https://yifanh.com/blog/#breadcrumbs"}},{"@type":"BreadcrumbList","@id":"https://yifanh.com/blog/#breadcrumbs","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://yifanh.com/"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://yifanh.com/blog/"}]}]}</script>
 <!-- SEO:end -->
 </head>
 <body>
@@ -66,10 +68,7 @@
 <main>
 
   <div class="blog-hero">
-    <a href="/" class="blog-crumb">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
-      Back to Portfolio
-    </a>
+    <nav class="breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li><span aria-current="page">Blog</span></li></ol></nav>
     <div class="sec-label">Writeups</div>
     <h1 class="sec-title">Writing &amp; <em>updates</em></h1>
     <p class="blog-intro">
@@ -148,7 +147,6 @@
   <span class="footer-t">Built with precision.</span>
 </footer>
 
-<script src="../assets/js/script.js" defer></script>
-<script src="../assets/js/code-blocks.js" defer></script>
+<script src="/assets/js/script.js" defer></script>
 </body>
 </html>

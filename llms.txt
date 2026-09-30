@@ -1,0 +1,21 @@
+# Yifan Hu
+
+> Portfolio and engineering build notes by Yifan Hu, an Electrical Engineering student at UCLA.
+
+The public site covers hardware, embedded systems, PCB design, autonomous vehicles, and Raspberry Pi home servers. Project updates may describe work in progress.
+
+## Main pages
+
+- [Portfolio](https://yifanh.com/): Background, experience, education, and contact details.
+- [Projects](https://yifanh.com/projects/): Hardware and embedded systems project archive.
+- [Blog](https://yifanh.com/blog/): Engineering articles and project updates.
+
+## Articles and build notes
+
+- [Building a RC Car](https://yifanh.com/blog/rc-car-build.md): Follow Yifan Hu’s RC car build: a CAD-designed frame, 3D-printed parts, differential drive, motor speed control, and custom electronics.
+- [Setting up QOL software on home server. Part 2.](https://yifanh.com/blog/raspberry-pi-wireguard-vaultwarden.md): Configure WireGuard remote access and a VPN-only Vaultwarden password manager with Caddy HTTPS on a Raspberry Pi home server.
+- [How running a home server affected my workflow. Part 1.](https://yifanh.com/blog/raspberry-pi-home-server-pi-hole-unbound.md): Set up a Raspberry Pi home server with Pi-hole ad blocking and Unbound DNS, with build notes and configuration examples from Yifan Hu.
+
+## Site navigation
+
+- [Sitemap](https://yifanh.com/sitemap.xml): Canonical public HTML pages.

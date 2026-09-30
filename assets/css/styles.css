@@ -165,7 +165,7 @@ html[data-theme="light"] .hero-name { mix-blend-mode:normal; }
    3. LAYOUT (header, nav, section containers)
 ──────────────────────────────────────────────────────────────────────── */
 
-nav {
+#nav {
   position:fixed; top:0; left:0; right:0; z-index:100;
   padding: 18px 24px;
   display:flex; align-items:center; justify-content:space-between;
@@ -173,7 +173,7 @@ nav {
   border-bottom: 1px solid transparent;
 }
 
-nav.scrolled {
+#nav.scrolled {
   background: var(--nav-bg);
   backdrop-filter: blur(18px);
   border-bottom-color: var(--border);
@@ -846,7 +846,7 @@ img.rotated { transform: rotate(-90deg) scale(1.38); }
    Everything below restores the wider desktop layout. */
 @media (min-width: 961px) {
 
-  nav { padding: 22px 56px; }
+  #nav { padding: 22px 56px; }
 
   .nav-toggle { display:none; }
 
@@ -935,3 +935,14 @@ img, video { max-width:100%; }
 .hero-label, .hero-name, .hero-tagline, .hero-cta {
   animation:none; opacity:1; transform:none;
 }
+
+.breadcrumbs { margin-bottom:28px; font-size:.8rem; color:var(--text-dim); }
+.breadcrumbs ol { display:flex; flex-wrap:wrap; align-items:baseline; gap:8px; }
+.breadcrumbs li { display:flex; gap:8px; min-width:0; overflow-wrap:anywhere; }
+.breadcrumbs li + li::before { content:'/'; color:var(--text-dimmer); }
+.breadcrumbs a { text-underline-offset:4px; }
+.breadcrumbs [aria-current="page"] { color:var(--text); }
+.error-page { position:relative; z-index:2; max-width:900px; margin:0 auto; padding:64px 24px; min-height:100svh; }
+.error-page > .nav-logo { display:inline-block; margin-bottom:56px; }
+.error-page > p:not(.sec-label) { max-width:620px; color:var(--text-dim); }
+.error-links { display:flex; flex-wrap:wrap; gap:16px; margin-top:36px; }

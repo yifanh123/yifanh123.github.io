@@ -35,3 +35,11 @@ Any profile edits, submissions, or outreach require a separate authorized action
 The static check covers all published pages, old redirects, heading order, metadata, JSON-LD parsing, local resources, internal link fragments, and sitemap/canonical agreement. Browser checks cover 320, 390, 768, 1024, and 1440 pixel widths, image loading, navigation, and gallery controls. Lab checks do not establish passing field Core Web Vitals: use Search Console's real-user report once traffic data is available.
 
 The unfinished koi page, styles, JavaScript, license, and local relay are ignored and excluded from the public navigation and sitemap. Existing local package-script and formatting-guide edits are separate work and need not be published with this SEO change.
+
+## Page source, navigation, and production assets
+
+All public pages ship complete static HTML, including headings, links, metadata, and JSON-LD. Breadcrumbs appear on the project archive, blog index, and articles, with matching BreadcrumbList data. `llms.txt` is regenerated from published posts; each article also has a clean `.md` source linked with `rel="alternate"`. This follows the community proposal at https://llmstxt.org/ and does not promise search or AI rankings.
+
+`404.html` uses root-relative assets and recovery links, so it works for deeply nested missing URLs. GitHub Pages must return HTTP 404 for missing paths; keep the error page out of the sitemap and do not redirect missing URLs to the homepage.
+
+The shared browser script contains theme and navigation controls. Only the homepage loads `oscilloscope.js`; only the project archive loads `gallery.js`; only pages containing code blocks load `code-blocks.js`. The static check caps external JavaScript at 10 KB per page and rejects source-map references. No source maps were present when this guard was added. `.gitignore` and the GitHub Pages `_config.yml` exclude maps; the deployment also excludes build scripts, raw post inputs, local tools, and development artifacts. Readable browser JavaScript remains public, as required for the browser to execute it.

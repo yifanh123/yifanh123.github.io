@@ -1,0 +1,17 @@
+# GitHub Pages publishes the prebuilt HTML; keep build inputs out of the site.
+exclude:
+  - node_modules
+  - vendor
+  - tools
+  - artifacts
+  - posts
+  - SEO.md
+  - package.json
+  - package-lock.json
+  - assets/js/build.js
+  - assets/js/seo.js
+  - projects/koi-pond
+  - assets/js/koi-pond.js
+  - assets/css/koi-pond.css
+  - '*.map'
+  - '**/*.map'

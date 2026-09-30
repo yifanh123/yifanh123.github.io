@@ -13,6 +13,11 @@ function enhance(html, url, post) {
   const description = html.match(/<meta name="description" content="([^"]*)"/)[1];
   const image = post?.cover ? new URL(post.cover, ORIGIN).href : `${ORIGIN}/assets/images/og-cover.png`;
   const canonical = ORIGIN + url;
+  const crumbs = url === '/' ? [] : [
+    { name: 'Home', url: '/' },
+    ...(post ? [{ name: 'Blog', url: '/blog/' }, { name: post.title, url }] :
+      [{ name: url === '/projects/' ? 'Projects' : 'Blog', url }])
+  ];
   html = html.replace(/\n?<!-- SEO:start -->[\s\S]*?<!-- SEO:end -->/g, '')
     .replace(/\n?<meta (?:property="og:[^"]+"|name="twitter:[^"]+")[^>]*>/g, '');
   const schema = { '@context': 'https://schema.org', '@graph': [person,
@@ -24,8 +29,19 @@ function enhance(html, url, post) {
       ...(post ? { headline: post.title, datePublished: post.dateISO, author: { '@id': person['@id'] }, mainEntityOfPage: canonical } :
         url === '/' ? { mainEntity: { '@id': person['@id'] } } : {}) }
   ] };
+  if (crumbs.length) {
+    schema['@graph'].push({ '@type': 'BreadcrumbList', '@id': canonical + '#breadcrumbs',
+      itemListElement: crumbs.map((crumb, i) => ({ '@type': 'ListItem', position: i + 1,
+        name: crumb.name, item: ORIGIN + crumb.url })) });
+    schema['@graph'][2].breadcrumb = { '@id': canonical + '#breadcrumbs' };
+    const trail = `<nav class="breadcrumbs" aria-label="Breadcrumb"><ol>${crumbs.map((crumb, i) =>
+      `<li>${i === crumbs.length - 1 ? `<span aria-current="page">${escape(crumb.name)}</span>` : `<a href="${crumb.url}">${escape(crumb.name)}</a>`}</li>`).join('')}</ol></nav>`;
+    html = html.replace(/<nav class="breadcrumbs"[\s\S]*?<\/nav>|<a\b[^>]*class="(?:blog-crumb|archive-back)"[^>]*>[\s\S]*?<\/a>/, trail);
+  }
   html = html.replace('</head>', `<!-- SEO:start -->
 <link rel="canonical" href="${canonical}">
+<link rel="describedby" href="/llms.txt" type="text/plain">
+${post ? `<link rel="alternate" type="text/markdown" href="/blog/${post.slug}.md" title="Markdown source">` : ''}
 <meta property="og:type" content="${post ? 'article' : 'website'}">
 <meta property="og:url" content="${canonical}">
 <meta property="og:site_name" content="Yifan Hu">
@@ -55,6 +71,11 @@ function enhance(html, url, post) {
   });
   html = html.replace(/data-src="[^"\n]*\/([^/"\n]+)"/g, (all, filename) => manifest[filename] ? `data-src="/assets/images/${manifest[filename].src}"` : all);
   html = html.replace(/(<button[^>]*class="g-thumb[^>]*>[\s\S]*?<img[^>]*sizes=")[^"]*/g, '$180px');
+  // Keep each page's script payload limited to the features it renders.
+  html = html.replace(/\n?<script src="[^"\n]*\/(?:script|oscilloscope|gallery|code-blocks)\.js" defer><\/script>/g, '');
+  const scripts = ['script', ...(url === '/' ? ['oscilloscope'] : []),
+    ...(url === '/projects/' ? ['gallery'] : []), ...(/<pre\b/.test(html) ? ['code-blocks'] : [])];
+  html = html.replace('</body>', scripts.map(name => `<script src="/assets/js/${name}.js" defer></script>`).join('\n') + '\n</body>');
   return html.replace(/\r\n/g, '\n').replace(/[ \t]+$/gm, '');
 }
 
@@ -66,6 +87,8 @@ function finish(posts) {
   const urls = ['/', '/projects/', '/blog/', ...posts.map(p => '/blog/' + p.url)];
   fs.writeFileSync(path.join(ROOT, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map(url => `  <url><loc>${ORIGIN}${url}</loc></url>`).join('\n')}\n</urlset>\n`);
   fs.writeFileSync(path.join(ROOT, 'robots.txt'), `User-agent: *\nAllow: /\n\nSitemap: ${ORIGIN}/sitemap.xml\n`);
+  const safeText = value => String(value).replace(/[\r\n]+/g, ' ').replace(/[\[\]]/g, '');
+  fs.writeFileSync(path.join(ROOT, 'llms.txt'), `# Yifan Hu\n\n> Portfolio and engineering build notes by Yifan Hu, an Electrical Engineering student at UCLA.\n\nThe public site covers hardware, embedded systems, PCB design, autonomous vehicles, and Raspberry Pi home servers. Project updates may describe work in progress.\n\n## Main pages\n\n- [Portfolio](${ORIGIN}/): Background, experience, education, and contact details.\n- [Projects](${ORIGIN}/projects/): Hardware and embedded systems project archive.\n- [Blog](${ORIGIN}/blog/): Engineering articles and project updates.\n\n## Articles and build notes\n\n${posts.map(post => `- [${safeText(post.title)}](${ORIGIN}/blog/${post.slug}.md): ${safeText(post.metaDescription || post.summary)}`).join('\n')}\n\n## Site navigation\n\n- [Sitemap](${ORIGIN}/sitemap.xml): Canonical public HTML pages.\n`);
 }
 
 function redirect(url) {

@@ -19,3 +19,6 @@ Thumbs.db
 /assets/licenses/zer02z2-fish-body.MIT.txt
 /tools/koi-relay.js
 /artifacts/
+
+# Production assets are shipped without source maps.
+*.map
