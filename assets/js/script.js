@@ -64,7 +64,7 @@
     }
 
     function resize() {
-      const dpr = window.devicePixelRatio || 1;
+      const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
       canvas.width  = canvas.offsetWidth  * dpr;
       canvas.height = canvas.offsetHeight * dpr;
       ctx.scale(dpr, dpr);
@@ -75,7 +75,7 @@
     // calls for the same curve.
     function buildPath(W, waveFn) {
       const path = new Path2D();
-      for (let x = 0; x <= W; x++) {
+      for (let x = 0; x <= W; x += 2) {
         x === 0 ? path.moveTo(x, waveFn(x)) : path.lineTo(x, waveFn(x));
       }
       return path;
@@ -217,6 +217,7 @@
       entries.forEach((entry) => {
         if (!entry.isIntersecting) return;
         entry.target.classList.add('visible');
+        revealObs.unobserve(entry.target);
       });
     }, { threshold: 0.12 });
 
@@ -330,7 +331,8 @@
           } else {
             mediaEl = document.createElement('img');
             mediaEl.className = rotated ? 'rotated' : '';
-            mediaEl.alt = '';
+            mediaEl.alt = (thumb.getAttribute('aria-label') || 'Project photograph').replace(/^Show /, '');
+            mediaEl.decoding = 'async';
             mediaEl.src = src;
             watchForBrokenImage(mediaEl);
           }

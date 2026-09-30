@@ -64,6 +64,26 @@
 
 .post-card-body { padding: 22px 24px 26px; }
 
+/* Full writeups lead with a larger, roomier card. Quick updates deliberately
+   retain the compact proportions of the original blog cards. */
+.post-card--article .post-card-body { padding: 30px 30px 32px; }
+.post-card--article .post-card-title {
+  font-size: clamp(1.75rem, 4vw, 2.35rem);
+  max-width: 22ch;
+}
+.post-card--article .post-card-excerpt {
+  font-size: 0.88rem;
+  max-width: 66ch;
+}
+.post-card--update .post-card-body { padding: 20px 22px 22px; }
+.post-card--update .post-card-title { font-size: 1.25rem; }
+.post-card--update .post-card-excerpt {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+}
+
 /* Timestamp styled like a serial-console readout — ties the card meta
    back into the embedded-systems / oscilloscope motif from the main site */
 .post-card-meta {
@@ -72,6 +92,11 @@
   letter-spacing: 0.08em; margin-bottom: 12px;
 }
 .post-card-meta time { color: var(--phosphor); }
+.post-card-kind {
+  color: var(--text-dimmer);
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+}
 .post-card-meta .dot-sep { color: var(--text-dimmer); }
 .post-card-meta .read-time { color: var(--text-dimmer); }
 
@@ -222,15 +247,29 @@
   .blog-hero { padding: 150px 56px 70px; }
   .blog-grid {
     padding: 20px 56px 120px;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(6, 1fr);
     gap: 32px;
   }
+  .post-card--article {
+    grid-column: span 3; min-height: 330px;
+    display: flex; flex-direction: column;
+  }
+  .post-card--article .post-card-body {
+    flex: 1; display: flex; flex-direction: column;
+  }
+  .post-card--article .post-card-footer { margin-top: auto; }
+  .post-card--update { grid-column: span 2; }
   .article-header { padding: 150px 56px 44px; }
   .article-body { padding: 20px 56px 70px; }
 }
 
 @media (min-width: 1300px) {
-  .blog-grid { grid-template-columns: repeat(3, 1fr); }
+  .blog-grid { grid-template-columns: repeat(6, 1fr); }
+}
+
+@media (min-width: 701px) and (max-width: 960px) {
+  .blog-grid { grid-template-columns: repeat(2, 1fr); }
+  .post-card--article { grid-column: span 2; }
 }
 
 /* ────────────────────────────────────────────────────────────────────────

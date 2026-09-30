@@ -10,14 +10,11 @@
     document.documentElement.setAttribute('data-theme', theme);
   })();
 </script>
-<title>Blog — Yifan Hu</title>
-<meta name="description" content="Writeups on hardware, embedded systems, and RF projects by Yifan Hu.">
+<title>Engineering Blog &amp; Project Updates — Yifan Hu</title>
+<meta name="description" content="Build notes by Yifan Hu on Raspberry Pi home servers, embedded electronics, RC vehicles, and hands-on engineering projects at UCLA.">
 
 <link rel="icon" type="image/svg+xml" href="../assets/images/favicon.svg">
 
-<meta property="og:type" content="article">
-<meta property="og:title" content="Blog">
-<meta property="og:description" content="Writeups on hardware, embedded systems, and RF projects by Yifan Hu.">
 
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -25,24 +22,39 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/css/styles.css">
 <link rel="stylesheet" href="../assets/css/blog.css">
+<!-- SEO:start -->
+<link rel="canonical" href="https://yifanh.com/blog/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://yifanh.com/blog/">
+<meta property="og:site_name" content="Yifan Hu">
+<meta property="og:title" content="Engineering Blog &amp; Project Updates — Yifan Hu">
+<meta property="og:description" content="Build notes by Yifan Hu on Raspberry Pi home servers, embedded electronics, RC vehicles, and hands-on engineering projects at UCLA.">
+<meta property="og:image" content="https://yifanh.com/assets/images/og-cover.png">
+<meta property="og:image:alt" content="Yifan Hu — Electrical Engineering at UCLA">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Engineering Blog &amp; Project Updates — Yifan Hu">
+<meta name="twitter:description" content="Build notes by Yifan Hu on Raspberry Pi home servers, embedded electronics, RC vehicles, and hands-on engineering projects at UCLA.">
+<meta name="twitter:image" content="https://yifanh.com/assets/images/og-cover.png">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Person","@id":"https://yifanh.com/#person","name":"Yifan Hu","url":"https://yifanh.com/","sameAs":["https://github.com/yifanh123","https://www.linkedin.com/in/yifanh11"]},{"@type":"WebSite","@id":"https://yifanh.com/#website","url":"https://yifanh.com/","name":"Yifan Hu","author":{"@id":"https://yifanh.com/#person"}},{"@type":"CollectionPage","@id":"https://yifanh.com/blog/#page","url":"https://yifanh.com/blog/","name":"Engineering Blog & Project Updates — Yifan Hu","description":"Build notes by Yifan Hu on Raspberry Pi home servers, embedded electronics, RC vehicles, and hands-on engineering projects at UCLA.","image":"https://yifanh.com/assets/images/og-cover.png","isPartOf":{"@id":"https://yifanh.com/#website"}}]}</script>
+<!-- SEO:end -->
 </head>
 <body>
 
 <header>
   <nav id="nav">
-    <a href="../index.html" class="nav-logo">Yifan <span>Hu</span></a>
+    <a href="/" class="nav-logo">Yifan <span>Hu</span></a>
     <div class="nav-right">
       <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Switch to light theme">
         <svg class="icon-sun" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
         <svg class="icon-moon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
       </button>
       <ul class="nav-links" id="nav-links">
-        <li><a href="../index.html#about">About</a></li>
-        <li><a href="../index.html#experience">Experience</a></li>
-        <li><a href="../projects/index.html">Projects</a></li>
-        <li><a href="../index.html#education">Education</a></li>
-        <li><a href="index.html" class="active">Blog</a></li>
-        <li><a href="../index.html#contact">Contact</a></li>
+        <li><a href="/#about">About</a></li>
+        <li><a href="/#experience">Experience</a></li>
+        <li><a href="/projects/">Projects</a></li>
+        <li><a href="/#education">Education</a></li>
+        <li><a href="/blog/" class="active">Blog</a></li>
+        <li><a href="/#contact">Contact</a></li>
       </ul>
       <button type="button" class="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="nav-links">
         <span></span><span></span><span></span>
@@ -54,28 +66,50 @@
 <main>
 
   <div class="blog-hero">
-    <a href="../index.html" class="blog-crumb">
+    <a href="/" class="blog-crumb">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
       Back to Portfolio
     </a>
     <div class="sec-label">Writeups</div>
-    <h1 class="sec-title">Notes From <em>the Bench</em></h1>
+    <h1 class="sec-title">Writing &amp; <em>updates</em></h1>
     <p class="blog-intro">
-      Longer-form writeups on what I am doing with my time —
-      experiences on what works, what doesn't, and where I'm improving.
+      Long reads, project updates, and anything else I feel like posting.
+      Bigger cards are full writeups; the compact ones are quick notes.
     </p>
   </div>
   <div class="blog-grid">
-    
-    <a class="post-card" href="homeserver2.html">
+
+    <a class="post-card post-card--update" href="rc-car-build.html">
       <div class="post-card-body">
         <div class="post-card-meta">
-          <time datetime="2026-08-26">2026.08.25</time>
+          <span class="post-card-kind">Update</span>
+          <span class="dot-sep">&middot;</span>
+          <time datetime="2026-08-30">2026.08.30</time>
+
+        </div>
+        <h2 class="post-card-title">Building a RC Car</h2>
+        <p class="post-card-excerpt">Build a RC car system.</p>
+        <div class="post-card-footer">
+          <ul class="tl-tags post-card-tags"><li class="tl-tag">RC Car</li></ul>
+          <span class="post-card-read">
+            Open
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
+          </span>
+        </div>
+      </div>
+    </a>
+
+    <a class="post-card post-card--article" href="raspberry-pi-wireguard-vaultwarden.html">
+      <div class="post-card-body">
+        <div class="post-card-meta">
+          <span class="post-card-kind">Long read</span>
+          <span class="dot-sep">&middot;</span>
+          <time datetime="2026-08-26">2026.08.26</time>
           <span class="dot-sep">&middot;</span>
           <span class="read-time">6 min read</span>
         </div>
-        <h3 class="post-card-title">Setting up QOL software on home server. Part 2.</h3>
-        <p class="post-card-excerpt">Setting up a home server using raspberry pi.</p>
+        <h2 class="post-card-title">Setting up QOL software on home server. Part 2.</h2>
+        <p class="post-card-excerpt">Configure remote access through WireGuard, then deploy a VPN-only Vaultwarden password manager behind Caddy HTTPS.</p>
         <div class="post-card-footer">
           <ul class="tl-tags post-card-tags"><li class="tl-tag">Raspberry Pi</li></ul>
           <span class="post-card-read">
@@ -86,14 +120,16 @@
       </div>
     </a>
 
-    <a class="post-card" href="homeserver1.html">
+    <a class="post-card post-card--article" href="raspberry-pi-home-server-pi-hole-unbound.html">
       <div class="post-card-body">
         <div class="post-card-meta">
+          <span class="post-card-kind">Long read</span>
+          <span class="dot-sep">&middot;</span>
           <time datetime="2026-08-04">2026.08.04</time>
           <span class="dot-sep">&middot;</span>
           <span class="read-time">14 min read</span>
         </div>
-        <h3 class="post-card-title">How running a home server affected my workflow. Part 1.</h3>
+        <h2 class="post-card-title">How running a home server affected my workflow. Part 1.</h2>
         <p class="post-card-excerpt">Setting up a home server using raspberry pi.</p>
         <div class="post-card-footer">
           <ul class="tl-tags post-card-tags"><li class="tl-tag">Raspberry Pi</li></ul>

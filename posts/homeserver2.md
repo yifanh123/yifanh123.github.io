@@ -1,9 +1,10 @@
 ---
+slug: raspberry-pi-wireguard-vaultwarden
 title: Setting up QOL software on home server. Part 2.
-tabTitle: Raspberry Pi Home Server
+tabTitle: "WireGuard & Vaultwarden on Raspberry Pi"
 date: 2026-08-26
-summary: Setting up a home server using raspberry pi.
-metaDescription: How to set up home server using raspberry pi.
+summary: Configure remote access through WireGuard, then deploy a VPN-only Vaultwarden password manager behind Caddy HTTPS.
+metaDescription: Configure WireGuard remote access and a VPN-only Vaultwarden password manager with Caddy HTTPS on a Raspberry Pi home server.
 tags: [Raspberry Pi]
 ---
 
@@ -16,9 +17,9 @@ The following prerequisites are assumed for this post:
 - Router administration access
 - A public IP address or DDNS hostname
 - Basic understanding of which ports will be exposed
-If you haven't done this yet, check out my previous post on setting up a home server using raspberry pi.
+If you haven't done this yet, read [Part 1: Raspberry Pi, Pi-hole, and Unbound](/blog/raspberry-pi-home-server-pi-hole-unbound.html).
 
-# Wireguard
+## Wireguard
 ### Installing WireGuard
 First we will set up wireguard.
 ```bash
@@ -58,7 +59,7 @@ These commands will help you debug any issues you might have with your VPN conne
 - DNS resolves through Pi-hole
 - Internet traffic works over cellular data
 
-# Vaultwarden
+## Vaultwarden
 ### Installing Vaultwarden
 The next step is to set up a password manager. I will be using Vaultwarden, which is a lightweight and self-hosted version of Bitwarden.
 ```bash
@@ -162,5 +163,5 @@ Because we have set up a VPN, the Vaultwarden server is accessible only when con
 ### Some drawbacks of this setup
 Caddy and Vaultwarden containers can be put on one docker network, but I have not done that in this setup. This means that the traffic between Caddy and Vaultwarden is not encrypted. This shouldn't be a problem since the traffic is only going through your home network, but it is something to keep in mind.
 
-# Conclusion
+## Conclusion
 In this post, we have set up a VPN using WireGuard and a password manager using Vaultwarden. These tools will help you secure your home server and manage your passwords effectively. I might cover more software in the next post, such as a media server or a home automation system. Stay tuned for more updates on setting up your home server!

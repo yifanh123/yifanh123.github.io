@@ -11,3 +11,11 @@ package-lock.json
 
 # Windows system files
 Thumbs.db
+
+# Unfinished koi pond and its local relay (keep off GitHub Pages).
+/projects/koi-pond/
+/assets/css/koi-pond.css
+/assets/js/koi-pond.js
+/assets/licenses/zer02z2-fish-body.MIT.txt
+/tools/koi-relay.js
+/artifacts/

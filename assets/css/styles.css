@@ -825,7 +825,7 @@ img.rotated { transform: rotate(-90deg) scale(1.38); }
 }
 
 .reveal {
-  opacity:0; transform:translateY(32px);
+  opacity:1; transform:none;
   transition: opacity 0.75s ease, transform 0.75s ease;
 }
 .reveal.visible { opacity:1; transform:translateY(0); }
@@ -917,4 +917,21 @@ img.rotated { transform: rotate(-90deg) scale(1.38); }
     flex-direction:row; justify-content:space-between; text-align:left;
     padding:30px 56px;
   }
+}
+
+/* Keep intrinsic media dimensions from overflowing narrow screens. */
+img, video { max-width:100%; }
+.featured-media img { height:100%; }
+.contact-email, .article-title, .archive-copy h2 { overflow-wrap:anywhere; }
+.related-posts { max-width:700px; margin:0 auto; padding:24px; line-height:1.8; }
+.related-posts h2 { font-size:1.4rem; margin-bottom:12px; }
+.related-posts ul { padding-left:20px; }
+.related-posts a { color:var(--phosphor); }
+@media (max-width:600px) {
+  .theme-toggle, .nav-toggle { min-width:44px; min-height:44px; }
+}
+
+/* Render above-the-fold text immediately instead of delaying LCP for a fade. */
+.hero-label, .hero-name, .hero-tagline, .hero-cta {
+  animation:none; opacity:1; transform:none;
 }

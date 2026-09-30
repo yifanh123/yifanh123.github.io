@@ -16,6 +16,7 @@
  *   title: My Post Title
  *   tabTitle: Short Tab Title       (optional — falls back to title)
  *   date: 2026-07-29
+ *   type: article                 (optional — use "update" for a compact card)
  *   summary: One or two sentences shown on the blog index card.
  *   metaDescription: Optional — falls back to summary if omitted.
  *   tags: [PCB Design, Firmware]
@@ -60,6 +61,7 @@
 const fs = require('fs');
 const path = require('path');
 const matter = require('gray-matter');
+const seo = require('./seo');
 
 const POSTS_DIR = path.join(__dirname, '../../posts');
 const OUTPUT_DIR = path.join(__dirname, '../../blog');
@@ -76,6 +78,7 @@ const AUTHOR_ROLE = 'Electrical Engineering @ UCLA';
 // same way from there.
 function resolveImgPath(src) {
   if (!src) return src;
+  if (/^https?:\/\//.test(src)) return src;
   if (src.startsWith('/')) return `..${src}`;
   return `../${src.replace(/^\.?\//, '')}`;
 }
@@ -83,9 +86,9 @@ function resolveImgPath(src) {
 function formatDateDisplay(dateInput) {
   const d = dateInput ? new Date(dateInput) : new Date();
   if (isNaN(d)) return String(dateInput);
-  const yyyy = d.getFullYear();
-  const mm = String(d.getMonth() + 1).padStart(2, '0');
-  const dd = String(d.getDate()).padStart(2, '0');
+  const yyyy = d.getUTCFullYear();
+  const mm = String(d.getUTCMonth() + 1).padStart(2, '0');
+  const dd = String(d.getUTCDate()).padStart(2, '0');
   return `${yyyy}.${mm}.${dd}`;
 }
 
@@ -234,21 +237,30 @@ function renderIndexCard(post) {
     : '';
   const tags = post.tags.map((t) => `<li class="tl-tag">${escapeHTML(t)}</li>`).join('');
 
+  const isUpdate = post.type === 'update';
+  const typeLabel = isUpdate ? 'Update' : 'Long read';
+  const actionLabel = isUpdate ? 'Open' : 'Read';
+  const excerpt = post.summary
+    ? `<p class="post-card-excerpt">${escapeHTML(post.summary)}</p>`
+    : '';
+
   return `
-    <a class="post-card" href="${post.url}">${media ? `
+    <a class="post-card post-card--${post.type}" href="${post.url}">${media ? `
       ${media}` : ''}
       <div class="post-card-body">
         <div class="post-card-meta">
-          <time datetime="${post.dateISO}">${post.dateDisplay}</time>
+          <span class="post-card-kind">${typeLabel}</span>
           <span class="dot-sep">&middot;</span>
-          <span class="read-time">${post.readingTime}</span>
+          <time datetime="${post.dateISO}">${post.dateDisplay}</time>
+          ${isUpdate ? '' : `<span class="dot-sep">&middot;</span>
+          <span class="read-time">${post.readingTime}</span>`}
         </div>
-        <h3 class="post-card-title">${escapeHTML(post.title)}</h3>
-        <p class="post-card-excerpt">${escapeHTML(post.summary)}</p>
+        <h2 class="post-card-title">${escapeHTML(post.title)}</h2>
+        ${excerpt}
         <div class="post-card-footer">
           <ul class="tl-tags post-card-tags">${tags}</ul>
           <span class="post-card-read">
-            Read
+            ${actionLabel}
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
           </span>
         </div>
@@ -268,10 +280,10 @@ function renderIndexPage(posts) {
       Back to Portfolio
     </a>
     <div class="sec-label">Writeups</div>
-    <h1 class="sec-title">Notes From <em>the Bench</em></h1>
+    <h1 class="sec-title">Writing &amp; <em>updates</em></h1>
     <p class="blog-intro">
-      Longer-form writeups on what I am doing with my time —
-      experiences on what works, what doesn't, and where I'm improving.
+      Long reads, project updates, and anything else I feel like posting.
+      Bigger cards are full writeups; the compact ones are quick notes.
     </p>
   </div>
   <div class="blog-grid">
@@ -279,8 +291,8 @@ function renderIndexPage(posts) {
   </div>`;
 
   return renderShell({
-    title: 'Blog',
-    description: 'Writeups on hardware, embedded systems, and RF projects by Yifan Hu.',
+    title: 'Engineering Blog & Project Updates',
+    description: 'Build notes by Yifan Hu on Raspberry Pi home servers, embedded electronics, RC vehicles, and hands-on engineering projects at UCLA.',
     ogImage: null,
     bodyHTML: body,
   });
@@ -312,7 +324,7 @@ function renderSignoff(post) {
 
 function renderPostPage(post) {
   const cover = post.cover
-    ? `<div class="article-cover"><img src="${resolveImgPath(post.cover)}" alt="" loading="eager" decoding="async"></div>`
+    ? `<div class="article-cover"><img src="${resolveImgPath(post.cover)}" alt="${escapeHTML(post.coverAlt)}" loading="eager" fetchpriority="high" decoding="async"></div>`
     : '';
   const tags = post.tags.length
     ? `<ul class="tags article-tags">${post.tags.map((t) => `<li class="tag">${escapeHTML(t)}</li>`).join('')}</ul>`
@@ -338,7 +350,12 @@ function renderPostPage(post) {
     ${post.html}
     ${tags}
   </article>
-  ${signoff}`;
+  ${signoff}
+  <nav class="related-posts" aria-label="Related reading">
+    <h2>Keep exploring</h2>
+    <ul>${post.related.map(p => `<li><a href="${p.url}">${escapeHTML(p.title)}</a></li>`).join('')}</ul>
+    <p><a href="/projects/">Explore my hardware projects</a> · <a href="/blog/">All writing and updates</a></p>
+  </nav>`;
 
   return renderShell({
     title: post.title,
@@ -371,41 +388,54 @@ async function buildSite() {
     const raw = fs.readFileSync(path.join(POSTS_DIR, file), 'utf-8');
     const { data, content } = matter(raw);
 
-    const slug = file.replace(/\.md$/, '');
+    // A stray or in-progress Markdown file should never become an
+    // "Untitled Post" on the live index.
+    if (!data.title) return null;
+
+    const legacySlug = file.replace(/\.md$/, '');
+    const slug = data.slug || legacySlug;
+    if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug)) throw new Error(`Invalid slug: ${slug}`);
     let processed = processImages(content);
     processed = processBlocks(processed, marked);
     const html = marked.parse(processed);
 
     return {
       slug,
+      legacySlug,
       url: `${slug}.html`,
       title: data.title || 'Untitled Post',
       tabTitle: data.tabTitle || data.title || 'Untitled Post',
       date: data.date ? new Date(data.date) : new Date(),
       dateISO: formatDateISO(data.date),
       dateDisplay: formatDateDisplay(data.date),
-      summary: data.summary || `${content.trim().slice(0, 160)}…`,
+      summary: data.summary || (content.trim() ? `${content.trim().slice(0, 160)}…` : ''),
       metaDescription: data.metaDescription || data.summary || '',
       tags: Array.isArray(data.tags) ? data.tags : [],
+      type: String(data.type || '').toLowerCase() === 'update' ? 'update' : 'article',
       cover: data.cover || null,
+      coverAlt: data.coverAlt || data.title,
       readingTime: computeReadingTime(content),
       html,
     };
-  });
+  }).filter(Boolean);
 
   // Newest first
   posts.sort((a, b) => b.date - a.date);
+  if (new Set(posts.map(p => p.slug)).size !== posts.length) throw new Error('Duplicate post slugs');
 
   posts.forEach((post) => {
-    fs.writeFileSync(path.join(OUTPUT_DIR, post.url), renderPostPage(post));
+    post.related = posts.filter(p => p !== post).slice(0, 3);
+    fs.writeFileSync(path.join(OUTPUT_DIR, post.url), seo.enhance(renderPostPage(post), '/blog/' + post.url, post));
+    if (post.slug !== post.legacySlug) fs.writeFileSync(path.join(OUTPUT_DIR, post.legacySlug + '.html'), seo.redirect(post.url));
   });
 
-  fs.writeFileSync(path.join(OUTPUT_DIR, 'index.html'), renderIndexPage(posts));
+  fs.writeFileSync(path.join(OUTPUT_DIR, 'index.html'), seo.enhance(renderIndexPage(posts), '/blog/'));
+  seo.finish(posts);
 
   console.log(`Built ${posts.length} post(s) → ${path.relative(process.cwd(), OUTPUT_DIR)}/`);
 }
 
-buildSite();
+buildSite().catch(error => { console.error(error); process.exitCode = 1; });
 
 if (process.argv.includes('--watch')) {
   console.log('\nWatching /posts for changes...');

@@ -1,9 +1,10 @@
 ---
+slug: raspberry-pi-home-server-pi-hole-unbound
 title: How running a home server affected my workflow. Part 1.
-tabTitle: Raspberry Pi Home Server
+tabTitle: "Raspberry Pi Home Server: Pi-hole & Unbound"
 date: 2026-08-4
 summary: Setting up a home server using raspberry pi.
-metaDescription: How to set up home server using raspberry pi.
+metaDescription: Set up a Raspberry Pi home server with Pi-hole ad blocking and Unbound DNS, with build notes and configuration examples from Yifan Hu.
 tags: [Raspberry Pi]
 ---
 
@@ -118,7 +119,7 @@ First run
 ```bash
 pihole -a -p
 ```
-to change the password to what you want it to be and now we can log in to the pi dashboard. Navigate to a web browser and go to the local IP address of the pi. http://192.168.x.x/admin. Enter the password that was previously set. Explore around, there will be a lot of setting that can be customized. The main sidebar options to focus on are Domain and Adlist.
+to change the password to what you want it to be and now we can log in to the pi dashboard. Navigate to a web browser and go to the local IP address of the pi, for example `http://192.168.x.x/admin` (replace the placeholder with your Pi's address). Enter the password that was previously set. Explore around, there will be a lot of setting that can be customized. The main sidebar options to focus on are Domain and Adlist.
 
 To tell what pi-hole blocks, it requires lists that get imported into the adlist by adding the links. Firebog has a lot of comprehensive block lists that can be added [https://firebog.net/](https://firebog.net/). After doing this, the gravity needs to be updated so pi-hole reads the new lists. Go to Tools -> Update Gravity and hit update to add the blocked domains to the database.
 
@@ -224,3 +225,5 @@ That is all for ad block and DNS. Test it with this website: [https://canyoubloc
 sudo pihole -up
 ```
 We have set up pi hole and unbound. The next post will (hopefully) cover the rest of the list.
+
+Continue with [Part 2: WireGuard and Vaultwarden](/blog/raspberry-pi-wireguard-vaultwarden.html) to add remote access and a password manager.

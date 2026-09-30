@@ -1,0 +1,163 @@
+{
+  "d1.jpg": {
+    "src": "d1.webp",
+    "width": 1600,
+    "height": 1200,
+    "small": "d1-320.webp",
+    "smallWidth": 320
+  },
+  "d2.jpg": {
+    "src": "d2.webp",
+    "width": 1200,
+    "height": 1600,
+    "small": "d2-320.webp",
+    "smallWidth": 240
+  },
+  "d3.png": {
+    "src": "d3.webp",
+    "width": 1600,
+    "height": 804,
+    "small": "d3-320.webp",
+    "smallWidth": 320
+  },
+  "d4.jpg": {
+    "src": "d4.webp",
+    "width": 1054,
+    "height": 642,
+    "small": "d4-320.webp",
+    "smallWidth": 320
+  },
+  "dvc1.png": {
+    "src": "dvc1.webp",
+    "width": 1600,
+    "height": 900,
+    "small": "dvc1-320.webp",
+    "smallWidth": 320
+  },
+  "eq.jpg": {
+    "src": "eq.webp",
+    "width": 1600,
+    "height": 1016,
+    "small": "eq-320.webp",
+    "smallWidth": 320
+  },
+  "eq1.jpg": {
+    "src": "eq1.webp",
+    "width": 1600,
+    "height": 1168,
+    "small": "eq1-320.webp",
+    "smallWidth": 320
+  },
+  "eq2.jpg": {
+    "src": "eq2.webp",
+    "width": 1200,
+    "height": 1600,
+    "small": "eq2-320.webp",
+    "smallWidth": 240
+  },
+  "k1.png": {
+    "src": "k1.webp",
+    "width": 1600,
+    "height": 1161,
+    "small": "k1-320.webp",
+    "smallWidth": 320
+  },
+  "k2.png": {
+    "src": "k2.webp",
+    "width": 1600,
+    "height": 619,
+    "small": "k2-320.webp",
+    "smallWidth": 320
+  },
+  "k3.png": {
+    "src": "k3.webp",
+    "width": 1600,
+    "height": 682,
+    "small": "k3-320.webp",
+    "smallWidth": 320
+  },
+  "k4.jpg": {
+    "src": "k4.webp",
+    "width": 1600,
+    "height": 1200,
+    "small": "k4-320.webp",
+    "smallWidth": 320
+  },
+  "pfp.jpg": {
+    "src": "pfp.webp",
+    "width": 1280,
+    "height": 1600,
+    "small": "pfp-320.webp",
+    "smallWidth": 256
+  },
+  "pl1.jpg": {
+    "src": "pl1.webp",
+    "width": 1600,
+    "height": 1200,
+    "small": "pl1-320.webp",
+    "smallWidth": 320
+  },
+  "pl2.jpg": {
+    "src": "pl2.webp",
+    "width": 1200,
+    "height": 1600,
+    "small": "pl2-320.webp",
+    "smallWidth": 240
+  },
+  "pl3.jpg": {
+    "src": "pl3.webp",
+    "width": 1600,
+    "height": 1200,
+    "small": "pl3-320.webp",
+    "smallWidth": 320
+  },
+  "pl4.jpg": {
+    "src": "pl4.webp",
+    "width": 1200,
+    "height": 1600,
+    "small": "pl4-320.webp",
+    "smallWidth": 240
+  },
+  "plvc1.png": {
+    "src": "plvc1.webp",
+    "width": 1280,
+    "height": 720,
+    "small": "plvc1-320.webp",
+    "smallWidth": 320
+  },
+  "r1.jpg": {
+    "src": "r1.webp",
+    "width": 1200,
+    "height": 1600,
+    "small": "r1-320.webp",
+    "smallWidth": 240
+  },
+  "r2.jpg": {
+    "src": "r2.webp",
+    "width": 1600,
+    "height": 1200,
+    "small": "r2-320.webp",
+    "smallWidth": 320
+  },
+  "r3.jpg": {
+    "src": "r3.webp",
+    "width": 1200,
+    "height": 1600,
+    "small": "r3-320.webp",
+    "smallWidth": 240
+  },
+  "rvc1.png": {
+    "src": "rvc1.webp",
+    "width": 900,
+    "height": 1600,
+    "small": "rvc1-320.webp",
+    "smallWidth": 180
+  },
+  "sw2.jpg": {
+    "src": "sw2.webp",
+    "width": 1200,
+    "height": 1600,
+    "small": "sw2-320.webp",
+    "smallWidth": 240
+  }
+}
