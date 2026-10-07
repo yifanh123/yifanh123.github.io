@@ -942,7 +942,13 @@ img, video { max-width:100%; }
 .breadcrumbs li + li::before { content:'/'; color:var(--text-dimmer); }
 .breadcrumbs a { text-underline-offset:4px; }
 .breadcrumbs [aria-current="page"] { color:var(--text); }
-.error-page { position:relative; z-index:2; max-width:900px; margin:0 auto; padding:64px 24px; min-height:100svh; }
-.error-page > .nav-logo { display:inline-block; margin-bottom:56px; }
-.error-page > p:not(.sec-label) { max-width:620px; color:var(--text-dim); }
+.error-layout { min-height:100svh; display:flex; flex-direction:column; }
+.error-page { position:relative; z-index:2; flex:1; display:flex; align-items:center; padding:140px 24px 80px; }
+.error-page .container { width:100%; }
+.error-code { color:var(--phosphor); font-family:var(--font-display); font-size:clamp(6rem,16vw,11rem); font-weight:500; line-height:1; letter-spacing:-.06em; margin-bottom:24px; }
+.error-page .sec-title { font-size:clamp(2rem,5vw,3.5rem); margin-bottom:20px; }
+.error-page p:not(.error-code) { color:var(--text-dim); }
 .error-links { display:flex; flex-wrap:wrap; gap:16px; margin-top:36px; }
+@media (min-width:961px) {
+  .error-page { padding:160px 56px 100px; }
+}
