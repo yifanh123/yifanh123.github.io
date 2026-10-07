@@ -221,7 +221,6 @@ ${bodyHTML}
 
 <footer>
   <span class="footer-t">&copy; 2026 Yifan Hu &mdash; Electrical Engineering @ UCLA</span>
-  <span class="footer-t">Built with precision.</span>
 </footer>
 
 <script src="../assets/js/script.js" defer></script>
